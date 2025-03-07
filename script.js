@@ -47,12 +47,37 @@ function createProjectCard({
     return el;
 }
 
-async function main() {
+function initLocaleButtons() {
+    const localeButtons = document.querySelectorAll(".locale-button");
+
+    for (const button of localeButtons) {
+        const targetLocale = button.getAttribute("target-locale");
+
+        button.addEventListener("click", () => {
+            setLocale(targetLocale);
+        });
+    }
+
+}
+
+const localeFile = await fetch("./locale.json");
+const locale = await localeFile.json();
+const projects = await (async () => {
     const fetched = await fetch("./projects.json");
     const projectsObject = await fetched.json();
-    const projects = projectsObject.projects;
-    console.log(projects);
+    return projectsObject.projects;
+})();
 
+function setLocale(code = 'sv') {
+    const localeElements = document.querySelectorAll("[locale-key]");
+
+    for (const el of localeElements) {
+        const key = el.getAttribute("locale-key");
+        el.textContent = locale[code][key];
+    }
+}
+
+async function main() {
     const projectsContainer = document.querySelector(".project-showcase");
 
     for (const project of projects) {

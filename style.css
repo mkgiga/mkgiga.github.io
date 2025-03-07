@@ -29,7 +29,9 @@ body {
     
     display: grid;
     grid-template-areas:
+        "a c"
         "a b";
+
     grid-template-columns: auto 1fr;
     grid-template-rows: 1fr 24px;
     
@@ -212,4 +214,22 @@ p {
 
 .contact-links li a:hover {
     text-decoration: underline;
+}
+
+.locale-button {
+    height: 1.5rem;
+    border-radius: 6.25%;
+    cursor: pointer;
+
+    &:hover {
+        filter: brightness(0.8);
+        transition: all 0.2s;
+        transform: sceal(1.1);
+    }
+
+    &:active {
+        filter: brightness(0.6);
+        transition: all 0.2s;
+        transform: scale(0.9);
+    }
 }

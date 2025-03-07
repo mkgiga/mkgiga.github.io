@@ -1,0 +1,11 @@
+{
+    "sv": {
+        "main.aboutme.heading": "Om mig",
+        "main.aboutme.content": "Jag är en utvecklare som gillar att skapa saker."
+    },
+
+    "en": {
+        "main.aboutme.heading": "About me",
+        "main.aboutme.content": "I'm a developer who likes to create things."
+    }
+}
