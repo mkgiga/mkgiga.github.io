@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
+
+
+:root {
+    --primary-color: rgba(126, 12, 110, 0.72);
+    --background-color: rgb(247, 248, 250);
+    --background-color-darker: rgb(235, 236, 240);
+    --text-color: rgb(0, 0, 0);
+    --text-color-dark: rgb(0, 0, 0);
+
+    --flair-color: rgb(30, 212, 155);
+    --flair-color-dark: rgb(41, 132, 103);
+
+    /* Sizes */
+    --gap: 0.5rem;
+    --indent: 1rem;
+}
+
+html,
+body {
+    position: fixed;
+    margin: 0;
+    padding: 2rem;
+    font-family: "Source Sans 3", sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    
+    display: grid;
+    grid-template-areas:
+        "a b";
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr 24px;
+    
+    column-gap: 2rem;
+
+    width: 100%;
+    height: 100%;
+}
+* {
+    box-sizing: border-box;
+}
+a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+[class*="devicon-"] {
+    font-size: 24px;
+}
+
+aside {
+    grid-area: a;
+    
+    display: flex;
+    flex-direction: column;
+
+    section.me-card {
+
+        display: grid;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 2fr;
+        
+        span.avatar {
+            display: block;
+            background-image: var(--avatar-url);
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            grid-row: span 3;
+            grid-column: span 1;
+            border: 1px solid black;
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            grid-column: 2;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin: 0;
+            grid-column: 2;
+        }
+
+        nav.socials {
+            display: flex;
+            grid-column: 2;
+            
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px; 
+            }
+        }
+    }
+    
+    table.skills-table {
+        thead {
+            display: none;
+        }
+
+        tbody {
+            tr {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid var(--background-color-darker);
+            }
+
+            td {
+                flex: 1;
+            }
+        }
+    }
+}
+
+footer {
+    grid-area: c;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 20px;
+}
+
+[hidden] {
+    display: none;
+}
+
+
+main {
+    grid-area: b;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    padding: var(--indent);
+    overflow-y: auto;
+    font-family: "Source Serif 4", serif;
+}
+
+h2 {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    margin-bottom: 16px;
+}
+
+p {
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.project-showcase {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.project-card {
+    background-color: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.project-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    color: var(--text-color-dark);
+}
+
+.tech-stack {
+    display: flex;
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tech-stack li {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.9rem;
+    color: var(--text-color-dark);
+}
+
+.contact-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.contact-links li a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.contact-links li a:hover {
+    text-decoration: underline;
+}

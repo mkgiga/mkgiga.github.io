@@ -1,0 +1,53 @@
+{
+    "projects": [
+        {
+            "name": "wizzy.js",
+            "description": "A WYSIWYG (What you see is what you get) editor for web applications.",
+            "icons": [
+                {
+                    "devicon": "html5",
+                    "label": "HTML5"
+                },
+                {
+                    "devicon": "css3",
+                    "label": "CSS3"
+                },
+                {
+                    "devicon": "javascript",
+                    "label": "JavaScript"
+                }
+            ],
+            "link": "https://github.com/mkgiga/wizzy"
+        },
+        {
+            "name": "img2pdf",
+            "description": "A python application to convert scanned images to PDF format using EasyOCR, reportlab and PyPDF2.",
+            "icons": [
+                {
+                    "devicon": "python",
+                    "label": "Python"
+                }
+            ],
+            "link": "https://github.com/mkgiga/img2pdf"
+        },
+        {
+            "name": "webtagger",
+            "description": "A browser extension for building and curating image datasets directly in the web browser. It utilizes the new Side Panel API to provide a seamless experience. It is compatible with the most popular Stable Diffusion LoRA trainer script format, letting you save your dataset as a zip file of images and text file pairs.",
+            "icons": [
+                {
+                    "devicon": "javascript",
+                    "label": "JavaScript"
+                },
+                {
+                    "devicon": "html5",
+                    "label": "HTML5"
+                },
+                {
+                    "devicon": "css3",
+                    "label": "CSS3"
+                }
+            ],
+            "link": "https://github.com/mkgiga/webtagger"
+        }
+    ]
+}
