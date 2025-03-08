@@ -7,7 +7,7 @@
         "main.aboutme.content": "Jag är en utvecklare som gillar att skapa saker.",
         "main.showcase.heading": "Projekt",
         "main.contact.heading": "Kontakta mig",
-        "main.contact.content": "Tveka inte att kontakta mig om du har frågor eller förslag."
+        "main.contact.content": "Tveka inte att kontakta mig om du har några frågor eller förslag."
     },
     "en": {
         "card.heading.name": "Emil Eriksson",
@@ -17,6 +17,6 @@
         "main.aboutme.content": "I'm a developer who likes to create things.",
         "main.showcase.heading": "Projects",
         "main.contact.heading": "Contact me",
-        "main.contact.content": "Feel free to contact me if you have any questions or suggestions."
+        "main.contact.content": "Feel free to contact me if you have any inquiries or suggestions."
     }
 }

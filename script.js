@@ -60,8 +60,8 @@ function initLocaleButtons() {
 
 }
 
-const localeFile = await fetch("./locale.json");
-const locale = await localeFile.json();
+const localeFile = document.querySelector("script#locale-data");
+const locale = JSON.parse(localeFile.textContent);
 const projects = await (async () => {
     const fetched = await fetch("./projects.json");
     const projectsObject = await fetched.json();
