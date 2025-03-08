@@ -69,6 +69,12 @@ const projects = await (async () => {
 })();
 
 function setLocale(code = 'sv') {
+    
+    if (!locale[code]) {
+        setLocale("en");
+        return;
+    }
+
     const localeElements = document.querySelectorAll("[locale-key]");
 
     for (const el of localeElements) {
@@ -84,6 +90,12 @@ async function main() {
         const card = createProjectCard(project);
         projectsContainer.appendChild(card);
     }
+
+    initLocaleButtons();
+    
+    // Check user's browser locale
+    const userLocale = navigator.language.split("-")[0];
+    setLocale(userLocale);
 }
 
 await main();

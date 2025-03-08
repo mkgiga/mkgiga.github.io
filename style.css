@@ -15,6 +15,7 @@
 
     /* Sizes */
     --gap: 0.5rem;
+    --gap2x: calc(var(--gap) * 2);
     --indent: 1rem;
 }
 
@@ -26,23 +27,25 @@ body {
     font-family: "Source Sans 3", sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
-    
+
     display: grid;
     grid-template-areas:
-        "a c"
-        "a b";
+        "a b"
+        "c d";
 
-    grid-template-columns: auto 1fr;
-    grid-template-rows: 1fr 24px;
-    
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto 1fr;
+
     column-gap: 2rem;
 
     width: 100%;
     height: 100%;
 }
+
 * {
     box-sizing: border-box;
 }
+
 a {
     text-decoration: none;
     color: var(--text-color);
@@ -52,86 +55,103 @@ a {
     font-size: 24px;
 }
 
-aside {
+section.me-card {
+
     grid-area: a;
-    
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
 
-    section.me-card {
+    column-gap: var(--gap2x);
 
-        display: grid;
-        grid-template-rows: 1fr 1fr 1fr;
-        grid-template-columns: 1fr 2fr;
-        
-        span.avatar {
-            display: block;
-            background-image: var(--avatar-url);
-            background-size: cover;
-            background-position: center;
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            grid-row: span 3;
-            grid-column: span 1;
-            border: 1px solid black;
-        }
-        
-        h1 {
-            font-size: 1.5rem;
-            margin: 0;
-            grid-column: 2;
-        }
+    text-wrap-mode: nowrap;
 
-        h2 {
-            font-size: 1.25rem;
-            margin: 0;
-            grid-column: 2;
-        }
-
-        nav.socials {
-            display: flex;
-            grid-column: 2;
-            
-            a {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 32px;
-                height: 32px; 
-            }
-        }
+    span.avatar {
+        display: block;
+        background-image: var(--avatar-url);
+        background-size: cover;
+        background-position: center;
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        grid-row: span 3;
+        grid-column: 1;
+        place-self: center;
+        border: 1px solid black;
     }
-    
-    table.skills-table {
-        thead {
-            display: none;
-        }
 
-        tbody {
-            tr {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 1px solid var(--background-color-darker);
-            }
+    h1 {
+        font-size: 1.5rem;
+        margin: 0;
+        grid-column: 2;
+    }
 
-            td {
-                flex: 1;
-            }
+    h2 {
+        font-size: 1.25rem;
+        margin: 0;
+        grid-column: 2;
+    }
+
+    nav.socials {
+        display: flex;
+        grid-column: 2;
+
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
         }
     }
 }
 
-footer {
+table.skills-table {
     grid-area: c;
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--primary-color);
-    color: white;
-    padding: 20px;
+
+    thead {
+        display: none;
+    }
+
+    tbody {
+        tr {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--gap2x);
+        }
+
+        td {
+            flex: 1;
+        }
+    }
+
+    progress[value] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+
+        &::-webkit-progress-bar {
+            background-color: var(--background-color-darker);
+            border-radius: 6px;
+        }
+
+        &::-webkit-progress-value {
+            background-color: var(--primary-color);
+            border-radius: 6px;
+        }
+    }
+}
+
+
+header {
+    grid-area: b;
+
+    div.locales-container {
+        display: flex;
+        justify-content: flex-end;
+        gap: 6px;
+    }
 }
 
 [hidden] {
@@ -140,7 +160,7 @@ footer {
 
 
 main {
-    grid-area: b;
+    grid-area: d;
     display: flex;
     flex-direction: column;
     gap: var(--gap);
