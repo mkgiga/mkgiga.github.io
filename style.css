@@ -6,7 +6,7 @@
 :root {
     --primary-color: rgba(126, 12, 110, 0.72);
     --background-color: rgb(247, 248, 250);
-    --background-color-darker: rgb(235, 236, 240);
+    --background-color-darker: rgb(207, 207, 207);
     --text-color: rgb(0, 0, 0);
     --text-color-dark: rgb(0, 0, 0);
 
@@ -31,12 +31,13 @@ body {
     display: grid;
     grid-template-areas:
         "a b"
-        "c d";
+        "c d"
+        "e d";
 
-    grid-template-columns: 350px 2fr;
-    grid-template-rows: auto 1fr;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;
 
-    column-gap: 0.5rem;
+    column-gap: 2rem;
 
     width: 100%;
     height: 100%;
@@ -61,11 +62,9 @@ section.me-card {
 
     grid-area: a;
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-columns: 1fr 2fr;
-
+    grid-auto-flow: column;
     column-gap: var(--gap2x);
-
+    row-gap: 0.25rem;
     text-wrap-mode: nowrap;
 
     span.avatar {
@@ -83,21 +82,27 @@ section.me-card {
     }
 
     h1 {
-        font-size: 1.5rem;
+        font-size: 2.5rem;
         margin: 0;
         grid-column: 2;
+        grid-row: 1;
+        line-height: 1;
     }
 
     h2 {
         font-size: 1.25rem;
         margin: 0;
         grid-column: 2;
+        grid-row: 2;
+        line-height: 1;
     }
 
     nav.socials {
         display: flex;
         grid-column: 2;
+        grid-row: 3;
         gap: var(--gap);
+        
 
         a {
             display: flex;
@@ -115,8 +120,23 @@ section.me-card {
     }
 }
 
-table.skills-table {
+.fun-facts {
+    grid-area: e;
+    height: auto;
+}
+
+.sidebar-stats {
     grid-area: c;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+table.skills-table {
+    
+    width: 100%;
+
+    border-collapse: collapse;
 
     thead {
         display: none;
@@ -124,15 +144,17 @@ table.skills-table {
 
     tbody {
         tr {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            gap: var(--gap2x);
         }
 
         td {
             flex: 1;
-            font-size-adjust: ;
+            padding: 0.25rem;
+            align-items: center;
+        }
+
+        td:nth-child(2) {
+            font-family: "Source Code Pro", monospace;
         }
     }
 
@@ -156,11 +178,17 @@ table.skills-table {
 
 header {
     grid-area: b;
-
+    background-color: var(--primary-color);
+    
     div.locales-container {
         display: flex;
         justify-content: flex-end;
         gap: 6px;
+        padding: 0.5rem;
+
+        img {
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
     }
 }
 
@@ -174,7 +202,6 @@ main {
     display: flex;
     flex-direction: column;
     gap: var(--gap);
-    padding: var(--indent);
     overflow-y: auto;
     font-family: "Source Serif 4", serif;
 }
@@ -262,4 +289,28 @@ p {
         transition: all 0.2s;
         transform: scale(0.9);
     }
+}
+
+::-webkit-scrollbar {
+    appearance: none;
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--background-color-darker);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: var(--background-color-darker);
+    border-radius: 6px;
+}
+
+* {
+    scrollbar-gutter: stable both-edges;
 }
