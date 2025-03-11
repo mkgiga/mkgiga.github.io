@@ -18,6 +18,7 @@ function html(strings, ...values) {
 
 function createProjectCard({
   name = "wizzy.js",
+  subtitle = "A WYSIWYG editor",
   description = "A WYSIWYG (What you see is what you get) editor for web applications.",
   icons = ["html", "css", "js"],
   link = "https://github.com/mkgiga/wizzy",
@@ -25,20 +26,26 @@ function createProjectCard({
     const el = html`
         <div class="project-card">
             <h3>${name}</h3>
+            <h4>${subtitle}</h4>
             <p>${description}</p>
             <ul class="tech-stack"></ul>
             <a href="${link}" target="_blank">View on GitHub</a>
         </div>
     `;
-    
+    const titleHeader = el.querySelector("h3");
+    titleHeader.addEventListener("click", () => {
+      const _link = document.createElement("a");
+      _link.href = link;
+      _link.target = "_blank";
+      _link.click();
+    });
     const techStack = el.querySelector(".tech-stack");
 
     for (const icon of icons) {
         const { devicon, label } = icon;
         const li = html`
             <li>
-                <span class="devicon-${devicon}"></span>
-                <span class="tech-stack-label">${label}</span>
+                <span class="devicon-${devicon}-plain" alt="${devicon} icon"></span>
             </li>
         `;
         techStack.appendChild(li);

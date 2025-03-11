@@ -1,40 +1,31 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <title>Emil Eriksson</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Emil Eriksson's home on the web!" />
-    <meta
-      name="keywords"
-      content="Emil Eriksson, web developer, system developer, programmer, software engineer"
-    />
-    <meta name="author" content="Emil Eriksson" />
-    <meta name="robots" content="index, follow" />
-    <meta name="revisit-after" content="7 days" />
-    <meta name="language" content="English" />
 
-    <link rel="stylesheet" type="text/css" href="./style.css" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght@20..48,100..700"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
-    />
+<head>
+  <title>Emil Eriksson</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Emil Eriksson's home on the web!" />
+  <meta name="keywords" content="Emil Eriksson, web developer, system developer, programmer, software engineer" />
+  <meta name="author" content="Emil Eriksson" />
+  <meta name="robots" content="index, follow" />
+  <meta name="revisit-after" content="7 days" />
+  <meta name="language" content="English" />
 
-    <script type="application/json" id="locale-data">
+  <link rel="stylesheet" type="text/css" href="./style.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght@20..48,100..700" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+
+  <script type="application/json" id="locale-data">
       {
         "sv": {
           "card.heading.name": "Emil Eriksson",
           "card.heading.title": "System och Webbutvecklare",
           "sidebar.skills.heading": "Kompetenser",
           "main.aboutme.heading": "Om mig",
-          "main.aboutme.content": "Jag är en utvecklare som gillar att skapa saker.",
+          "main.aboutme.content": "Hej! Jag heter Emil Eriksson och är en person som tycker om att lösa problem. Jag jobbar som system- och webbutvecklare och har erfarenhet av att jobba med flera olika tekniker och språk, till och med på min fritid!",
           "main.showcase.heading": "Projekt",
           "main.contact.heading": "Kontakta mig",
           "main.contact.content": "Tveka inte att kontakta mig om du har några frågor eller förslag."
@@ -52,237 +43,171 @@
       }
     </script>
 
-    <script src="./script.js" type="module"></script>
-  </head>
+  <script src="./script.js" type="module"></script>
+</head>
 
-  <body>
-    <section class="me-card">
-      <span class="avatar"></span>
-      <h1 locale-key="card.heading.name">Emil Eriksson</h1>
-      <h2 locale-key="card.heading.title">System och Webbutvecklare</h2>
-      <nav class="socials">
-        <a
-          href="https://www.linkedin.com/in/emil-eriksson-565484310/"
-          target="_blank"
-          rel="noopener noreferrer"
-          ><span class="devicon-linkedin-plain"></span
-        ></a>
-        <a
-          href="https://www.github.com/mkgiga"
-          target="_blank"
-          rel="noopener noreferrer"
-          ><span class="devicon-github-plain"></span
-        ></a>
-        <a href="mailto:sourcemile@gmail.com"
-          ><span class="material-symbols-outlined">email</span></a
-        >
-      </nav>
-    </section>
+<body>
+  <section class="me-card">
+    <span class="avatar"></span>
+    <h1 locale-key="card.heading.name">Emil Eriksson</h1>
+    <h2 locale-key="card.heading.title">System och Webbutvecklare</h2>
+    <nav class="socials">
+      <a href="https://www.linkedin.com/in/emil-eriksson-565484310/" target="_blank" rel="noopener noreferrer"><span
+          class="devicon-linkedin-plain"></span></a>
+      <a href="https://www.github.com/mkgiga" target="_blank" rel="noopener noreferrer"><span
+          class="devicon-github-plain"></span></a>
+      <a href="mailto:sourcemile@gmail.com"><span class="material-symbols-outlined">email</span></a>
+    </nav>
+  </section>
 
-    <section class="sidebar-stats">
-      <h2 locale-key="sidebar.skills.heading">Skills</h2>
-      <table class="skills-table">
-        <thead hidden>
-          <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <span
-                class="devicon-html5-plain property-icon"
-                tooltip="HTML5"
-              ></span>
-            </td>
-            <td>HTML5</td>
-            <td><progress value="100" max="100"></progress></td>
-          </tr>
-          <tr>
-            <td>
-              <span
-                class="devicon-javascript-plain property-icon"
-                tooltip="JavaScript"
-              ></span>
-            </td>
-            <td>JavaScript</td>
-            <td><progress value="95" max="100"></progress></td>
-          </tr>
-          <tr>
-            <td>
-              <span
-                class="devicon-nodejs-plain property-icon"
-                tooltip="Node.js"
-              ></span>
-            </td>
-            <td>Node.js</td>
-            <td><progress value="95" max="100"></progress></td>
-          </tr>
-          <tr>
-            <td>
-              <span
-                class="devicon-css3-plain property-icon"
-                tooltip="CSS3"
-              ></span>
-            </td>
-            <td>CSS3</td>
-            <td><progress value="90" max="100"></progress></td>
-          </tr>
-          <tr>
-            <td>
-              <span
-                class="devicon-react-original property-icon"
-                tooltip="React"
-              ></span>
-            </td>
-            <td>React</td>
-            <td><progress value="90" max="100"></progress></td>
-          </tr>
-          <tr>
-            <td>
-              <span
-                class="devicon-python-plain property-icon"
-                tooltip="Python"
-              ></span>
-            </td>
-            <td>Python</td>
-            <td><progress value="90" max="100"></progress></td>
-          </tr>
-          <tr>
-            <td>
-              <span
-                class="devicon-java-plain property-icon"
-                tooltip="Java"
-              ></span>
-            </td>
-            <td>Java</td>
-            <td><progress value="90" max="100"></progress></td>
-          </tr>
-          <tr>
-            <td>
-              <span
-                class="devicon-csharp-plain property-icon"
-                tooltip="C#"
-              ></span>
-            </td>
-            <td>C#</td>
-            <td><progress value="90" max="100"></progress></td>
-          </tr>
-          <tr>
-            <td>
-              <span
-                class="devicon-mysql-plain property-icon"
-                tooltip="MySQL"
-              ></span>
-            </td>
-            <td>MySQL</td>
-            <td><progress value="90" max="100"></progress></td>
-          </tr>
-          <tr>
-            <td>
-              <span
-                class="devicon-linux-plain property-icon"
-                tooltip="Linux"
-              ></span>
-            </td>
-            <td>Linux</td>
-            <td><progress value="90" max="100"></progress></td>
-          </tr>
-          <tr>
-            <td>
-              <span
-                class="devicon-git-plain property-icon"
-                tooltip="Git"
-              ></span>
-            </td>
-            <td>Git</td>
-            <td><progress value="80" max="100"></progress></td>
-          </tr>
-          <tr>
-            <td>
-              <span
-                class="devicon-docker-plain property-icon"
-                tooltip="Docker"
-              ></span>
-            </td>
-            <td>Docker</td>
-            <td><progress value="80" max="100"></progress></td>
-          </tr>
-          <tr>
-            <td>
-              <span class="devicon-c-plain property-icon" tooltip="C"></span>
-            </td>
-            <td>C</td>
-            <td><progress value="70" max="100"></progress></td>
-          </tr>
-          <tr>
-            <td>
-              <span
-                class="devicon-cplusplus-plain property-icon"
-                tooltip="C++"
-              ></span>
-            </td>
-            <td>C++</td>
-            <td><progress value="60" max="100"></progress></td>
-          </tr>
-        </tbody>
-      </table>
+  <section class="sidebar">
+    <h2 locale-key="sidebar.skills.heading">Skills</h2>
+    <table class="skills-table">
+      <thead hidden>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="devicon-html5-plain property-icon" tooltip="HTML5"></span>
+          </td>
+          <td>HTML5</td>
+          <td><progress value="100" max="100"></progress></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="devicon-javascript-plain property-icon" tooltip="JavaScript"></span>
+          </td>
+          <td>JavaScript</td>
+          <td><progress value="95" max="100"></progress></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="devicon-nodejs-plain property-icon" tooltip="Node.js"></span>
+          </td>
+          <td>Node.js</td>
+          <td><progress value="95" max="100"></progress></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="devicon-css3-plain property-icon" tooltip="CSS3"></span>
+          </td>
+          <td>CSS3</td>
+          <td><progress value="90" max="100"></progress></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="devicon-react-original property-icon" tooltip="React"></span>
+          </td>
+          <td>React</td>
+          <td><progress value="90" max="100"></progress></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="devicon-python-plain property-icon" tooltip="Python"></span>
+          </td>
+          <td>Python</td>
+          <td><progress value="90" max="100"></progress></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="devicon-java-plain property-icon" tooltip="Java"></span>
+          </td>
+          <td>Java</td>
+          <td><progress value="90" max="100"></progress></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="devicon-csharp-plain property-icon" tooltip="C#"></span>
+          </td>
+          <td>C#</td>
+          <td><progress value="90" max="100"></progress></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="devicon-mysql-plain property-icon" tooltip="MySQL"></span>
+          </td>
+          <td>MySQL</td>
+          <td><progress value="90" max="100"></progress></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="devicon-linux-plain property-icon" tooltip="Linux"></span>
+          </td>
+          <td>Linux</td>
+          <td><progress value="90" max="100"></progress></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="devicon-git-plain property-icon" tooltip="Git"></span>
+          </td>
+          <td>Git</td>
+          <td><progress value="80" max="100"></progress></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="devicon-docker-plain property-icon" tooltip="Docker"></span>
+          </td>
+          <td>Docker</td>
+          <td><progress value="80" max="100"></progress></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="devicon-c-plain property-icon" tooltip="C"></span>
+          </td>
+          <td>C</td>
+          <td><progress value="70" max="100"></progress></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="devicon-cplusplus-plain property-icon" tooltip="C++"></span>
+          </td>
+          <td>C++</td>
+          <td><progress value="60" max="100"></progress></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  
+  <div class="contact-panel">
+    <section class="contact">
+      <h2 locale-key="main.contact.heading">Kontakta mig</h2>
+      <p locale-key="main.contact.content"></p>
+      <ul class="contact-links">
+        <li>
+          <a href="mailto:sourcemile@gmail.com"><span
+              class="material-symbols-outlined">email</span>sourcemile@gmail.com</a>
+        </li>
+        <li>
+          <a href="https://www.linkedin.com/in/emil-eriksson-565484310/" target="_blank" rel="noopener noreferrer"><span
+              class="devicon-linkedin-plain"></span> LinkedIn</a>
+        </li>
+      </ul>
     </section>
-    <div class="fun-facts">
-      <h3>Fun Fact</h3>
-      <p>This is a test panel.</p>
+  </div>
+
+  <header>
+    <div class="locales-container">
+      <img class="locale-button" type="image/svg+xml" src="./icons/se.svg" alt="Swedish flag" target-locale="sv" />
+      <img class="locale-button" type="image/svg+xml" src="./icons/us.svg" alt="US flag" target-locale="en" />
     </div>
+  </header>
+  <main>
+    <section class="about-me">
+      <h2 locale-key="main.aboutme.heading">Om mig</h2>
+      <p locale-key="main.aboutme.content"></p>
+    </section>
 
-    <header>
-      <div class="locales-container">
-        <img
-          class="locale-button"
-          type="image/svg+xml"
-          src="./icons/se.svg"
-          alt="Swedish flag"
-          target-locale="sv"
-        />
-        <img
-          class="locale-button"
-          type="image/svg+xml"
-          src="./icons/us.svg"
-          alt="US flag"
-          target-locale="en"
-        />
-      </div>
-    </header>
-    <main>
-      <section class="about-me">
-        <h2 locale-key="main.aboutme.heading">Om mig</h2>
-        <p locale-key="main.aboutme.content"></p>
-      </section>
+    <section class="project-showcase">
+      <h2 locale-key="main.showcase.heading">Projekt</h2>
+    </section>
 
-      <section class="project-showcase">
-        <h2 locale-key="main.showcase.heading">Projekt</h2>
-      </section>
 
-      <section class="contact">
-        <h2 locale-key="main.contact.heading">Kontakta mig</h2>
-        <p locale-key="main.contact.content"></p>
-        <ul class="contact-links">
-          <li>
-            <a href="mailto:sourcemile@gmail.com"
-              ><span class="material-symbols-outlined">email</span
-              >sourcemile@gmail.com</a
-            >
-          </li>
-          <li>
-            <a
-              href="https://www.linkedin.com/in/emil-eriksson-565484310/"
-              target="_blank"
-              rel="noopener noreferrer"
-              ><span class="devicon-linkedin-plain"></span> LinkedIn</a
-            >
-          </li>
-        </ul>
-      </section>
-    </main>
-  </body>
+  </main>
+</body>
+
 </html>
