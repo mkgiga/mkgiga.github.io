@@ -1,0 +1,47 @@
+/* Import Google Font */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;700&display=swap");
+
+/* Flag selected state */
+#languages img[selected] {
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+}
+
+/* Tab visibility */
+[tab]:not([active]) {
+    display: none;
+}
+
+/* Link hover behavior */
+.link-group:hover a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: dotted;
+}
+
+a:active {
+    text-decoration: underline;
+}
+
+/* Language visibility control */
+body[lang="en"] [lang="sv"] {
+    display: none;
+}
+
+body[lang="sv"] [lang="en"] {
+    display: none;
+}
+
+/* Custom utility classes */
+.service-list {
+    margin-left: 1.5em;
+    margin-top: 8px;
+}
+
+.tagline {
+    font-size: 20px;
+    font-weight: 300;
+    margin-bottom: 12px;
+    color: #202020;
+}
