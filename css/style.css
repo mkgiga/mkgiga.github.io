@@ -1,5 +1,11 @@
 /* Import Google Font */
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;700&display=swap");
+    
+:root {
+    --primary: #647cca; /* blue-600 */
+    --primary-hover: #5167b1; /* blue-700 */
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #f5f5f5;
@@ -12,7 +18,7 @@ body {
 }
 
 @media (min-width: 768px) {
-    #root {
+    #main-layout {
         max-width: 750px;
         margin: 0 auto;
     }

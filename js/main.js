@@ -30,11 +30,25 @@ function onTabClick(event) {
 };
 
 function showTab(tabName) {
-    for (const tab of tabs) {
-        if (tab.getAttribute("tab") === tabName) {
-            tab.setAttribute("active", "");
-        } else {
-            tab.removeAttribute("active");
+    const landing = document.getElementById('landing');
+    const mainLayout = document.getElementById('main-layout');
+
+    if (tabName === 'home') {
+        // Show landing page, hide main layout
+        landing.classList.remove('hidden');
+        mainLayout.classList.add('hidden');
+    } else {
+        // Show main layout, hide landing page
+        landing.classList.add('hidden');
+        mainLayout.classList.remove('hidden');
+
+        // Show the correct tab
+        for (const tab of tabs) {
+            if (tab.getAttribute("tab") === tabName) {
+                tab.setAttribute("active", "");
+            } else {
+                tab.removeAttribute("active");
+            }
         }
     }
 }
@@ -69,13 +83,46 @@ function switchLanguage(langCode) {
   }
 }
 
+/**
+ * Handle language click - save preference and switch language
+ * @param {string} langCode - Language code ("en" or "sv")
+ */
+function onLanguageClick(langCode) {
+  localStorage.setItem('preferredLanguage', langCode);
+  switchLanguage(langCode);
+}
+
+/**
+ * Get initial language based on saved preference, browser locale, or default to English
+ * @returns {string} Language code ("en" or "sv")
+ */
+function getInitialLanguage() {
+  // Check localStorage first
+  const savedLang = localStorage.getItem('preferredLanguage');
+  if (savedLang === 'en' || savedLang === 'sv') {
+    return savedLang;
+  }
+
+  // Check browser language
+  const userLang = navigator.language || navigator.userLanguage;
+  if (userLang && userLang.startsWith('sv')) {
+    return 'sv';
+  }
+
+  // Fall back to English
+  return 'en';
+}
+
 function initialize() {
   const linkGroups = document.querySelectorAll('.link-group');
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   // load email and phone number dynamically to
   // prevent scrapers from selling them to spammers
   for (const id in fuckYouScrapers) {
     const element = document.getElementById(id);
+    // Also try landing page versions
+    const landingElement = document.getElementById(id + '_landing');
     const keys = Object.keys(fuckYouScrapers[id]);
 
     function decodeString(str) {
@@ -93,7 +140,24 @@ function initialize() {
     for (const key of keys) {
       const value = fuckYouScrapers[id][key];
       const decodedValue = decodeString(value);
-      element[key] = decodedValue;
+
+      // For phone links (hehe_1), only set href on mobile devices
+      if (key === 'href' && id === 'hehe_1') {
+        if (isMobile) {
+          if (element) element[key] = decodedValue;
+          if (landingElement) landingElement[key] = decodedValue;
+        }
+        // Always set textContent regardless of device
+        if (keys.includes('textContent')) {
+          const textValue = fuckYouScrapers[id]['textContent'];
+          const decodedText = decodeString(textValue);
+          if (element) element.textContent = decodedText;
+          if (landingElement) landingElement.textContent = decodedText;
+        }
+      } else {
+        if (element) element[key] = decodedValue;
+        if (landingElement) landingElement[key] = decodedValue;
+      }
     }
   }
 
@@ -107,6 +171,7 @@ function initialize() {
     }
   }
 
+  // Add event listeners to all route links (nav + landing CTAs)
   for (const link of document.querySelectorAll('a[route]')) {
     link.addEventListener('click', onTabClick);
   }
@@ -116,51 +181,60 @@ function initialize() {
   const langSvButton = document.getElementById('lang-sv');
 
   if (langEnButton) {
-    langEnButton.addEventListener('click', () => switchLanguage('en'));
+    langEnButton.addEventListener('click', () => onLanguageClick('en'));
   }
 
   if (langSvButton) {
-    langSvButton.addEventListener('click', () => switchLanguage('sv'));
+    langSvButton.addEventListener('click', () => onLanguageClick('sv'));
   }
 
   // Phone number click handler - copy on desktop, call on mobile
+  const phoneContainer = document.getElementById('phone-container');
   const phoneLink = document.getElementById('hehe_1');
+  const phoneLinkLanding = document.getElementById('hehe_1_landing');
   const copyFeedback = document.getElementById('copy-feedback');
 
-  if (phoneLink && copyFeedback) {
-    phoneLink.addEventListener('click', async (event) => {
-      // Detect if mobile device
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (!isMobile) {
+    // Desktop only: copy to clipboard for both phone links
+    const copyPhoneNumber = async (event, linkElement) => {
+      event.preventDefault(); // Prevent anchor navigation
+      const phoneNumber = linkElement.textContent.trim();
 
-      if (!isMobile) {
-        // Desktop: copy to clipboard
-        event.preventDefault();
-        const phoneNumber = phoneLink.textContent.trim();
+      try {
+        await navigator.clipboard.writeText(phoneNumber);
 
-        try {
-          await navigator.clipboard.writeText(phoneNumber);
-
-          // Show feedback
-          copyFeedback.textContent = 'Copied to clipboard!';
+        // Show feedback (only in main layout where the feedback element exists)
+        if (copyFeedback) {
+          copyFeedback.classList.remove('hidden');
           copyFeedback.style.opacity = '1';
 
-          // Fade out after 2 seconds
+          // Fade out and hide after 2 seconds
           setTimeout(() => {
             copyFeedback.style.opacity = '0';
+            // Hide completely after fade animation
+            setTimeout(() => {
+              copyFeedback.classList.add('hidden');
+            }, 300); // Match transition duration
           }, 2000);
-        } catch (err) {
-          console.error('Failed to copy:', err);
         }
+      } catch (err) {
+        console.error('Failed to copy:', err);
       }
-      // Mobile: let the tel: link work normally (don't prevent default)
-    });
+    };
+
+    // Main layout: attach to container so icon click also works
+    if (phoneContainer && phoneLink) {
+      phoneContainer.addEventListener('click', (event) => copyPhoneNumber(event, phoneLink));
+    }
+    // Landing page: attach to link element
+    if (phoneLinkLanding) {
+      phoneLinkLanding.addEventListener('click', (event) => copyPhoneNumber(event, phoneLinkLanding));
+    }
   }
+  // Mobile: tel: link works automatically (no handler needed)
 
-  // Set default language based on user's browser locale
-  const userLang = navigator.language || navigator.userLanguage;
-  const defaultLang = userLang.startsWith('sv') ? 'sv' : 'en';
-
-  switchLanguage(defaultLang);
+  // Set language based on saved preference, browser locale, or default to English
+  switchLanguage(getInitialLanguage());
 
   showTab(getTabFromPath());
 }

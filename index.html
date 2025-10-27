@@ -40,8 +40,45 @@
         <img src="/assets/flags/se.svg" alt="Swedish Flag" />
       </button>
     </div>
-    <div id="root">
-      <header class="flex flex-col mb-6 mt-6">
+    <div id="landing" class="flex flex-col items-center justify-center min-h-screen w-screen">
+      <div class="text-center max-w-3xl px-6">
+        <h1 class="text-6xl font-thin mb-4 leading-none">Emil Eriksson</h1>
+        <p class="text-2xl font-light text-gray-700 mb-8">
+          <span lang="en">Web Development, User Experience & Design</span>
+          <span lang="sv">Webbutveckling, Användarupplevelse & Design</span>
+        </p>
+        <p class="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
+          <span lang="en">I build custom web applications and technical solutions for businesses with unique requirements—from concept to deployment.</span>
+          <span lang="sv">Jag bygger skräddarsydda webbapplikationer och tekniska lösningar för företag med unika krav—från koncept till driftsättning.</span>
+        </p>
+        <div class="flex gap-4 justify-center mb-12">
+          <a href="/consulting" route="consulting" class="bg-[var(--primary)] text-white px-8 py-3 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium">
+            <span lang="en">View Services</span>
+            <span lang="sv">Se tjänster</span>
+          </a>
+          <a href="/contact" route="contact" class="border border-gray-300 px-8 py-3 rounded-lg hover:border-gray-400 transition-colors font-medium">
+            <span lang="en">Get in Touch</span>
+            <span lang="sv">Kontakta mig</span>
+          </a>
+        </div>
+        <div class="flex gap-6 justify-center text-gray-600">
+          <a id="hehe_2_landing" class="hover:text-gray-900 transition-colors cursor-pointer">
+            <i class="material-icons text-2xl align-middle">email</i>
+          </a>
+          <a href="https://github.com/mkgiga" target="_blank" rel="noopener" class="hover:text-gray-900 transition-colors">
+            <i class="devicon-github-plain text-2xl"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/emil-eriksson-565484310/" target="_blank" rel="noopener" class="hover:text-gray-900 transition-colors">
+            <i class="devicon-linkedin-plain text-2xl"></i>
+          </a>
+          <a id="hehe_1_landing" class="hover:text-gray-900 transition-colors cursor-pointer">
+            <i class="material-icons text-2xl align-middle">phone</i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div id="main-layout" class="min-h-screen flex flex-col">
+      <header class="flex flex-col mb-6 mt-12">
         <div class="flex flex-row items-baseline gap-4 w-full">
           <h1 id="card-title" class="text-[52px] font-thin leading-none">
             <a href="/" route="home">Emil Eriksson</a>
@@ -64,24 +101,27 @@
                   <i class="devicon-linkedin-plain text-[17px]"></i>
                 </a>
               </li>
-              <li id="phone-container" class="flex flex-row items-baseline w-fit border-b border-transparent text-base font-medium hover:border-b hover:border-black link-group leading-none relative">
+              <li id="phone-container" class="flex flex-row items-baseline w-fit border-b border-transparent text-base font-medium hover:border-b hover:border-black leading-none relative">
                 <i class="material-icons text-xl mr-1 align-baseline cursor-pointer">phone</i>
                 <a id="hehe_1" class="font-light cursor-pointer"></a>
-                <span id="copy-feedback" class="absolute left-0 top-full mt-1 text-xs text-green-600 opacity-0 transition-opacity whitespace-nowrap"></span>
+                <span id="copy-feedback" class="absolute left-0 top-full mt-1 text-xs text-green-600 opacity-0 transition-opacity whitespace-nowrap hidden">
+                  <span lang="en">Copied to clipboard!</span>
+                  <span lang="sv">Kopierad till urklipp!</span>
+                </span>
               </li>
             </ul>
           </div>
         </div>
       </header>
-      <main class="relative m-auto min-h-64 transition-all duration-300 ease-in-out">
+      <main class="relative m-auto min-h-64 transition-all duration-300 ease-in-out flex-1 flex flex-col mb-9 max-md:mb-4">
         <nav id="main-nav" class="flex justify-end gap-[7px] mb-1">
           <a href="/" role="button" route="home" class="font-medium">Home</a>
-          <a href="/consulting" role="button" route="consulting" class="font-medium"><span lang="en">Consulting</span><span lang="sv">Rådgivning</span></a>
-          <a href="/projects" role="button" route="projects" class="font-medium"><span lang="en">Projects</span><span lang="sv">Projekt</span></a>
+          <a href="/consulting" role="button" route="consulting" class="font-medium"><span lang="en">Consulting</span><span lang="sv">Konsult</span></a>
+          <!-- <a href="/projects" role="button" route="projects" class="font-medium"><span lang="en">Projects</span><span lang="sv">Projekt</span></a> -->
           <a href="/about" role="button" route="about" class="font-medium"><span lang="en">About</span><span lang="sv">Om mig</span></a>
           <a href="/contact" role="button" route="contact" class="font-medium"><span lang="en">Contact</span><span lang="sv">Kontakt</span></a>
         </nav>
-        <div id="tab-container" class="flex flex-col rounded-2xl shadow-md p-9 bg-white h-full w-[678px] max-md:w-[90vw] max-md:p-4">
+        <div id="tab-container" class="flex flex-col rounded-2xl shadow-md p-9 bg-white flex-1 w-[678px] max-md:w-[90vw] max-md:p-4">
           <div tab="home" active>
             
           </div>
@@ -90,14 +130,9 @@
               <span lang="en">Consulting</span>
               <span lang="sv">Rådgivning</span>
             </h1>
-            <p class="text-xl font-light mb-4 text-gray-700">
-              <span lang="en">If you can dream it, we can build it.</span>
-              <span lang="sv">Om du kan drömma det, kan vi bygga det.</span>
-            </p>
-
             <p class="mb-6 leading-relaxed">
-              <span lang="en">I build custom web applications and technical solutions for businesses that need more than a template. From concept to deployment.</span>
-              <span lang="sv">Jag bygger skräddarsydda webbapplikationer och tekniska lösningar för företag som behöver mer än en mall. Från koncept till driftsättning.</span>
+              <span lang="en">I build custom web applications and technical solutions for businesses with unique requirements—from concept to deployment.</span>
+              <span lang="sv">Jag bygger skräddarsydda webbapplikationer och tekniska lösningar för företag med unika krav—från koncept till driftsättning.</span>
             </p>
 
             <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
@@ -113,7 +148,7 @@
                     <span lang="sv">10 minuter för att diskutera dina behov</span>
                   </p>
                 </div>
-                <div class="text-gray-400 text-2xl">→</div>
+                <i class="material-icons text-gray-400 text-2xl self-center">arrow_forward</i>
                 <div class="flex-1">
                   <div class="text-2xl font-bold text-gray-800 mb-1">2</div>
                   <h3 class="font-semibold mb-2">
@@ -125,7 +160,7 @@
                     <span lang="sv">Anpassad offert & tidslinje</span>
                   </p>
                 </div>
-                <div class="text-gray-400 text-2xl">→</div>
+                <i class="material-icons text-gray-400 text-2xl self-center">arrow_forward</i>
                 <div class="flex-1">
                   <div class="text-2xl font-bold text-gray-800 mb-1">3</div>
                   <h3 class="font-semibold mb-2">
@@ -147,22 +182,22 @@
               </h3>
               <ul class="space-y-2 text-gray-700">
                 <li class="flex items-start">
-                  <span class="text-green-600 mr-2">✓</span>
+                  <i class="material-icons text-green-600 mr-2 text-base">check</i>
                   <span lang="en">Full-stack web development</span>
                   <span lang="sv">Full-stack webbutveckling</span>
                 </li>
                 <li class="flex items-start">
-                  <span class="text-green-600 mr-2">✓</span>
+                  <i class="material-icons text-green-600 mr-2 text-base">check</i>
                   <span lang="en">Custom API & backend systems</span>
                   <span lang="sv">Anpassade API & backend-system</span>
                 </li>
                 <li class="flex items-start">
-                  <span class="text-green-600 mr-2">✓</span>
-                  <span lang="en">Search & data processing solutions</span>
-                  <span lang="sv">Sök- & databearbetningslösningar</span>
+                  <i class="material-icons text-green-600 mr-2 text-base">check</i>
+                  <span lang="en">Digitization pipelines</span>
+                  <span lang="sv">Digitaliseringslösningar</span>
                 </li>
                 <li class="flex items-start">
-                  <span class="text-green-600 mr-2">✓</span>
+                  <i class="material-icons text-green-600 mr-2 text-base">check</i>
                   <span lang="en">Technical planning & architecture</span>
                   <span lang="sv">Teknisk planering & arkitektur</span>
                 </li>
@@ -174,20 +209,20 @@
                 <span lang="en">Rate: $85/hour • Project quotes available</span>
                 <span lang="sv">Pris: $85/timme • Projektofferter tillgängliga</span>
               </p>
-              <a id="consulting-cta" class="inline-block bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium cursor-pointer">
-                <span lang="en">Let's discuss your project →</span>
-                <span lang="sv">Låt oss diskutera ditt projekt →</span>
+              <a id="consulting-cta" class="inline-block bg-[var(--primary)] text-white px-6 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium cursor-pointer">
+                <span lang="en">Let's discuss your project <i class="material-icons text-sm align-middle">arrow_forward</i></span>
+                <span lang="sv">Låt oss diskutera ditt projekt <i class="material-icons text-sm align-middle">arrow_forward</i></span>
               </a>
             </div>
           </div>
           <div tab="projects">
-            <h2 class="text-[28px] font-extralight"><span lang="en">Projects</span><span lang="sv">Projekt</span></h2>
+            <h2 class="text-[28px] font-thin"><span lang="en">Projects</span><span lang="sv">Projekt</span></h2>
           </div>
           <div tab="contact">
-            <h2 class="text-[28px] font-extralight"><span lang="en">Contact</span><span lang="sv">Kontakt</span></h2>
+            <h2 class="text-[28px] font-thin"><span lang="en">Contact</span><span lang="sv">Kontakt</span></h2>
           </div>
           <div tab="about">
-            <h2 class="text-[28px] font-extralight"><span lang="en">About</span><span lang="sv">Om mig</span></h2>
+            <h2 class="text-[28px] font-thin"><span lang="en">About</span><span lang="sv">Om mig</span></h2>
           </div>
         </div>
       </main>
