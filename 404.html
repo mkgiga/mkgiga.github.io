@@ -5,8 +5,6 @@
     <title>Redirecting...</title>
     <script>
       // GitHub Pages SPA redirect hack
-      // When a route like /about is accessed, GitHub Pages serves this 404.html
-      // We redirect to index.html with the path preserved in sessionStorage
       sessionStorage.redirect = location.pathname;
       location.replace(location.origin);
     </script>

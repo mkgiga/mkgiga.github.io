@@ -123,6 +123,39 @@ function initialize() {
     langSvButton.addEventListener('click', () => switchLanguage('sv'));
   }
 
+  // Phone number click handler - copy on desktop, call on mobile
+  const phoneLink = document.getElementById('hehe_1');
+  const copyFeedback = document.getElementById('copy-feedback');
+
+  if (phoneLink && copyFeedback) {
+    phoneLink.addEventListener('click', async (event) => {
+      // Detect if mobile device
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+      if (!isMobile) {
+        // Desktop: copy to clipboard
+        event.preventDefault();
+        const phoneNumber = phoneLink.textContent.trim();
+
+        try {
+          await navigator.clipboard.writeText(phoneNumber);
+
+          // Show feedback
+          copyFeedback.textContent = 'Copied to clipboard!';
+          copyFeedback.style.opacity = '1';
+
+          // Fade out after 2 seconds
+          setTimeout(() => {
+            copyFeedback.style.opacity = '0';
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      }
+      // Mobile: let the tel: link work normally (don't prevent default)
+    });
+  }
+
   // Set default language based on user's browser locale
   const userLang = navigator.language || navigator.userLanguage;
   const defaultLang = userLang.startsWith('sv') ? 'sv' : 'en';

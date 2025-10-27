@@ -31,7 +31,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
   </head>
-  <body class="flex items-center justify-center w-screen h-screen bg-gray-100 font-['Roboto',sans-serif]">
+  <body lang="en">
     <div id="languages" class="absolute top-4 right-4 flex gap-2">
       <button id="lang-en" role="button" aria-label="Switch to English" class="bg-transparent cursor-pointer rounded-xl border-none">
         <img src="/assets/flags/us.svg" alt="US Flag" selected />
@@ -40,107 +40,159 @@
         <img src="/assets/flags/se.svg" alt="Swedish Flag" />
       </button>
     </div>
-
-    <div id="root" class="relative m-auto min-h-64 transition-all duration-300 ease-in-out">
-      <nav id="main-nav" class="flex justify-end gap-[7px] mb-1">
-        <a href="/" role="button" route="home" class="font-medium">Home</a>
-        <a href="/consulting" role="button" route="consulting" class="font-medium"><span lang="en">Consulting</span><span lang="sv">Rådgivning</span></a>
-        <a href="/projects" role="button" route="projects" class="font-medium"><span lang="en">Projects</span><span lang="sv">Projekt</span></a>
-        <a href="/about" role="button" route="about" class="font-medium"><span lang="en">About</span><span lang="sv">Om mig</span></a>
-        <a href="/contact" role="button" route="contact" class="font-medium"><span lang="en">Contact</span><span lang="sv">Kontakt</span></a>
-      </nav>
-      <div id="tab-container" class="flex flex-col rounded-2xl shadow-md p-9 bg-white h-full w-[678px] max-md:w-[90vw] max-md:p-4">
-        <div tab="home" active>
-          <section id="card-header" class="flex flex-col">
-            <div class="flex flex-row items-baseline">
-              <h1 id="card-title" class="text-[32px] font-light mb-1">Emil Eriksson</h1>
-              <ul id="contact-links" class="flex flex-row gap-2">
-                <li class="flex flex-row w-fit border-b border-transparent text-base font-medium hover:border-b hover:border-black link-group">
-                  <i class="material-icons text-xl mr-1">phone</i>
-                  <a id="hehe_1" class="font-light cursor-pointer"></a>
-                </li>
-                <li class="flex flex-row w-fit border-b border-transparent text-base font-medium hover:border-b hover:border-black link-group">
-                  <i class="material-icons text-xl mr-1">email</i>
-                  <a id="hehe_2" class="font-light cursor-pointer"><span lang="en">Email</span><span lang="sv">E-post</span></a>
-                </li>
-                <li class="flex flex-row w-fit border-b border-transparent text-base font-medium hover:border-b hover:border-black link-group">
-                  <i class="devicon-github-plain text-[17px] mr-1"></i>
-                  <a href="https://github.com/mkgiga" target="_blank" rel="noopener" class="font-light cursor-pointer">GitHub</a>
-                </li>
-                <li class="flex flex-row w-fit border-b border-transparent text-base font-medium hover:border-b hover:border-black link-group">
-                  <i class="devicon-linkedin-plain text-[17px] mr-1"></i>
-                  <a href="https://www.linkedin.com/in/emil-eriksson-565484310/" target="_blank" rel="noopener" class="font-light cursor-pointer">LinkedIn</a>
-                </li>
-              </ul>
-            </div>
-            <h2 id="card-subtitle" class="text-lg mb-3 text-[#101010]"><span lang="en">Web Development, User Experience & Design</span><span lang="sv">Webbutveckling, Användarupplevelse & Design</span></h2>
-
-          </section>
+    <div id="root">
+      <header class="flex flex-col mb-6 mt-6">
+        <div class="flex flex-row items-baseline gap-4 w-full">
+          <h1 id="card-title" class="text-[52px] font-thin leading-none">
+            <a href="/" route="home">Emil Eriksson</a>
+          </h1>
+          <div class="relative">
+            <h2 id="card-subtitle" class="absolute bottom-full text-lg text-[#101010] font-light leading-none whitespace-nowrap"><span lang="en">Web Development, User Experience & Design</span><span lang="sv">Webbutveckling, Användarupplevelse & Design</span></h2>
+            <ul id="contact-links" class="flex flex-row gap-2 items-baseline">
+              <li class="flex flex-row items-baseline w-fit border-b border-transparent text-base font-medium hover:border-b hover:border-black link-group leading-none">
+                <a id="hehe_2" class="font-light cursor-pointer">
+                  <i class="material-icons text-xl align-baseline">email</i>
+                </a>
+              </li>
+              <li class="flex flex-row items-baseline w-fit border-b border-transparent text-base font-medium hover:border-b hover:border-black link-group leading-none">
+                <a href="https://github.com/mkgiga" target="_blank" rel="noopener" class="font-light cursor-pointer">
+                  <i class="devicon-github-plain text-[17px]"></i>
+                </a>
+              </li>
+              <li class="flex flex-row items-baseline w-fit border-b border-transparent text-base font-medium hover:border-b hover:border-black link-group leading-none">
+                <a href="https://www.linkedin.com/in/emil-eriksson-565484310/" target="_blank" rel="noopener" class="font-light cursor-pointer">
+                  <i class="devicon-linkedin-plain text-[17px]"></i>
+                </a>
+              </li>
+              <li id="phone-container" class="flex flex-row items-baseline w-fit border-b border-transparent text-base font-medium hover:border-b hover:border-black link-group leading-none relative">
+                <i class="material-icons text-xl mr-1 align-baseline cursor-pointer">phone</i>
+                <a id="hehe_1" class="font-light cursor-pointer"></a>
+                <span id="copy-feedback" class="absolute left-0 top-full mt-1 text-xs text-green-600 opacity-0 transition-opacity whitespace-nowrap"></span>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div tab="consulting">
-          <div class="flex flex-row">
-            <h1 class="text-[32px] font-thin">
+      </header>
+      <main class="relative m-auto min-h-64 transition-all duration-300 ease-in-out">
+        <nav id="main-nav" class="flex justify-end gap-[7px] mb-1">
+          <a href="/" role="button" route="home" class="font-medium">Home</a>
+          <a href="/consulting" role="button" route="consulting" class="font-medium"><span lang="en">Consulting</span><span lang="sv">Rådgivning</span></a>
+          <a href="/projects" role="button" route="projects" class="font-medium"><span lang="en">Projects</span><span lang="sv">Projekt</span></a>
+          <a href="/about" role="button" route="about" class="font-medium"><span lang="en">About</span><span lang="sv">Om mig</span></a>
+          <a href="/contact" role="button" route="contact" class="font-medium"><span lang="en">Contact</span><span lang="sv">Kontakt</span></a>
+        </nav>
+        <div id="tab-container" class="flex flex-col rounded-2xl shadow-md p-9 bg-white h-full w-[678px] max-md:w-[90vw] max-md:p-4">
+          <div tab="home" active>
+            
+          </div>
+          <div tab="consulting">
+            <h1 class="text-[32px] font-thin mb-2">
               <span lang="en">Consulting</span>
               <span lang="sv">Rådgivning</span>
             </h1>
-            <p class="tagline">
-              <span lang="en">If you can dream it, we can build it!</span>
+            <p class="text-xl font-light mb-4 text-gray-700">
+              <span lang="en">If you can dream it, we can build it.</span>
               <span lang="sv">Om du kan drömma det, kan vi bygga det.</span>
             </p>
-          </div>
-          <section class="mt-4">
-            <p>
-              <span lang="en">
-                Do you have a vision for a project or an idea you want to bring to life? (...)
-              </span>
-              <span lang="sv">
-                Har du en vision för ett projekt eller en idé som du vill förverkliga? (...)
 
-              </span>
+            <p class="mb-6 leading-relaxed">
+              <span lang="en">I build custom web applications and technical solutions for businesses that need more than a template. From concept to deployment.</span>
+              <span lang="sv">Jag bygger skräddarsydda webbapplikationer och tekniska lösningar för företag som behöver mer än en mall. Från koncept till driftsättning.</span>
             </p>
-          </section>
-          <section class="mt-4">
-            <h3 class="text-2xl font-light">
-              <span lang="en">Services Offered</span>
-              <span lang="sv">Erbjudna tjänster</span>
-            </h3>
-            <section class="border-l-4 border-[#3f7b4d] pl-6 mt-3">
-              <h4 class="text-xl font-normal">
-                <span lang="en">Web Development</span>
-                <span lang="sv">Webbutveckling</span>
-              </h4>
-              <ul class="service-list">
-                <li>
-                  <span lang="en">Custom Website Development</span>
-                  <span lang="sv">Anpassad webbplatsutveckling</span>
+
+            <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
+              <div class="flex justify-between items-start gap-4">
+                <div class="flex-1">
+                  <div class="text-2xl font-bold text-gray-800 mb-1">1</div>
+                  <h3 class="font-semibold mb-2">
+                    <span lang="en">Free Discovery Call</span>
+                    <span lang="sv">Gratis samtal</span>
+                  </h3>
+                  <p class="text-sm text-gray-600">
+                    <span lang="en">10 minutes to discuss your needs</span>
+                    <span lang="sv">10 minuter för att diskutera dina behov</span>
+                  </p>
+                </div>
+                <div class="text-gray-400 text-2xl">→</div>
+                <div class="flex-1">
+                  <div class="text-2xl font-bold text-gray-800 mb-1">2</div>
+                  <h3 class="font-semibold mb-2">
+                    <span lang="en">Proposal</span>
+                    <span lang="sv">Offert</span>
+                  </h3>
+                  <p class="text-sm text-gray-600">
+                    <span lang="en">Custom quote & timeline</span>
+                    <span lang="sv">Anpassad offert & tidslinje</span>
+                  </p>
+                </div>
+                <div class="text-gray-400 text-2xl">→</div>
+                <div class="flex-1">
+                  <div class="text-2xl font-bold text-gray-800 mb-1">3</div>
+                  <h3 class="font-semibold mb-2">
+                    <span lang="en">Build</span>
+                    <span lang="sv">Bygg</span>
+                  </h3>
+                  <p class="text-sm text-gray-600">
+                    <span lang="en">Let's make it happen</span>
+                    <span lang="sv">Låt oss förverkliga det</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <h3 class="text-lg font-semibold mb-3">
+                <span lang="en">Services</span>
+                <span lang="sv">Tjänster</span>
+              </h3>
+              <ul class="space-y-2 text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-green-600 mr-2">✓</span>
+                  <span lang="en">Full-stack web development</span>
+                  <span lang="sv">Full-stack webbutveckling</span>
                 </li>
-                <li>
-                  <span lang="en">E-commerce Solutions</span>
-                  <span lang="sv">E-handelslösningar</span>
+                <li class="flex items-start">
+                  <span class="text-green-600 mr-2">✓</span>
+                  <span lang="en">Custom API & backend systems</span>
+                  <span lang="sv">Anpassade API & backend-system</span>
                 </li>
-                <li>
-                  <span lang="en">Responsive Design</span>
-                  <span lang="sv">Responsiv design</span>
+                <li class="flex items-start">
+                  <span class="text-green-600 mr-2">✓</span>
+                  <span lang="en">Search & data processing solutions</span>
+                  <span lang="sv">Sök- & databearbetningslösningar</span>
                 </li>
-                <li>
-                  <span lang="en">Content Management Systems (CMS)</span>
-                  <span lang="sv">Innehållshanteringssystem (CMS)</span>
+                <li class="flex items-start">
+                  <span class="text-green-600 mr-2">✓</span>
+                  <span lang="en">Technical planning & architecture</span>
+                  <span lang="sv">Teknisk planering & arkitektur</span>
                 </li>
               </ul>
-            </section>
-          </section>
+            </div>
+
+            <div class="border-t border-gray-200 pt-4">
+              <p class="text-sm text-gray-600 mb-3">
+                <span lang="en">Rate: $85/hour • Project quotes available</span>
+                <span lang="sv">Pris: $85/timme • Projektofferter tillgängliga</span>
+              </p>
+              <a id="consulting-cta" class="inline-block bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium cursor-pointer">
+                <span lang="en">Let's discuss your project →</span>
+                <span lang="sv">Låt oss diskutera ditt projekt →</span>
+              </a>
+            </div>
+          </div>
+          <div tab="projects">
+            <h2 class="text-[28px] font-extralight"><span lang="en">Projects</span><span lang="sv">Projekt</span></h2>
+          </div>
+          <div tab="contact">
+            <h2 class="text-[28px] font-extralight"><span lang="en">Contact</span><span lang="sv">Kontakt</span></h2>
+          </div>
+          <div tab="about">
+            <h2 class="text-[28px] font-extralight"><span lang="en">About</span><span lang="sv">Om mig</span></h2>
+          </div>
         </div>
-        <div tab="projects">
-          <h2 class="text-[28px] font-extralight"><span lang="en">Projects</span><span lang="sv">Projekt</span></h2>
-        </div>
-        <div tab="contact">
-          <h2 class="text-[28px] font-extralight"><span lang="en">Contact</span><span lang="sv">Kontakt</span></h2>
-        </div>
-        <div tab="about">
-          <h2 class="text-[28px] font-extralight"><span lang="en">About</span><span lang="sv">Om mig</span></h2>
-        </div>
-      </div>
+      </main>
     </div>
+    
     <script>
       // 404 redirect
       (function() {
