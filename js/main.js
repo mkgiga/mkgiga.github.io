@@ -236,6 +236,36 @@ function initialize() {
   // Set language based on saved preference, browser locale, or default to English
   switchLanguage(getInitialLanguage());
 
+  // Rotating text animation
+  const rotatingText = document.getElementById('rotating-text');
+  if (rotatingText) {
+    let currentIndex = 0;
+    const wordCount = 5; // Web, Application, System, Backend, Frontend (Frontend is at index 4)
+    const blockHeight = 1.3; // em units, matches CSS
+
+    function rotateText() {
+      currentIndex++;
+      rotatingText.style.transform = `translateY(-${currentIndex * blockHeight}em)`;
+
+      // After showing the duplicate "Web" (index 5), reset to real "Web" (index 0) instantly
+      if (currentIndex === wordCount) {
+        setTimeout(() => {
+          rotatingText.style.transition = 'none'; // Disable transition
+          currentIndex = 0;
+          rotatingText.style.transform = `translateY(0)`;
+
+          // Re-enable transition after a brief delay
+          setTimeout(() => {
+            rotatingText.style.transition = 'transform 0.8s ease-in-out';
+          }, 50);
+        }, 800); // Wait for animation to complete (matches CSS transition duration)
+      }
+    }
+
+    // Rotate every 3.5 seconds
+    setInterval(rotateText, 3500);
+  }
+
   showTab(getTabFromPath());
 }
 

@@ -74,3 +74,23 @@ body[lang="sv"] [lang="en"] {
     line-height: 1 !important;
     transform: translateY(3px);
 }
+
+/* Rotating text animation */
+.rotating-text-container {
+    height: 1.3em;
+    text-align: right;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    transform: translateY(0.25em);
+}
+
+.rotating-text-inner {
+    transition: transform 0.8s ease-in-out;
+    transform: translateY(0);
+}
+
+.rotating-text-inner > .block {
+    height: 1.3em;
+    line-height: 1.3em;
+}
