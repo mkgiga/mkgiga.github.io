@@ -115,7 +115,26 @@ function getInitialLanguage() {
 
 function initialize() {
   const linkGroups = document.querySelectorAll('.link-group');
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  // Robust mobile detection using multiple signals
+  function isMobileDevice() {
+    // Check for touch capability
+    const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    // Check for coarse pointer (indicates touch/stylus)
+    const hasCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+
+    // Check screen width (fallback for older devices)
+    const isSmallScreen = window.innerWidth <= 768;
+
+    // User agent check as final fallback
+    const mobileUA = /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    // Device is mobile if it has touch AND (coarse pointer OR small screen OR mobile UA)
+    return hasTouch && (hasCoarsePointer || isSmallScreen || mobileUA);
+  }
+
+  const isMobile = isMobileDevice();
 
   // load email and phone number dynamically to
   // prevent scrapers from selling them to spammers
