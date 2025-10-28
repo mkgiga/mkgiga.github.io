@@ -254,18 +254,32 @@ function switchLanguage(langCode) {
   // Set language on body element
   document.body.setAttribute('lang', langCode);
 
-  // Remove selected attribute from all flag images
+  // Remove selected attribute from all flag images (main layout)
   const allFlags = document.querySelectorAll('#languages img');
   for (const flag of allFlags) {
     flag.removeAttribute('selected');
   }
 
-  // Add selected attribute to the clicked language's flag
+  // Add selected attribute to the clicked language's flag (main layout)
   const targetButton = document.getElementById(`lang-${langCode}`);
   if (targetButton) {
     const targetFlag = targetButton.querySelector('img');
     if (targetFlag) {
       targetFlag.setAttribute('selected', '');
+    }
+  }
+
+  // Update landing page flags
+  const landingEnFlag = document.querySelector('#lang-en-landing img');
+  const landingSvFlag = document.querySelector('#lang-sv-landing img');
+  if (landingEnFlag) landingEnFlag.removeAttribute('selected');
+  if (landingSvFlag) landingSvFlag.removeAttribute('selected');
+
+  const landingTargetButton = document.getElementById(`lang-${langCode}-landing`);
+  if (landingTargetButton) {
+    const landingTargetFlag = landingTargetButton.querySelector('img');
+    if (landingTargetFlag) {
+      landingTargetFlag.setAttribute('selected', '');
     }
   }
 }
@@ -390,6 +404,8 @@ function initialize() {
   // Language switcher
   const langEnButton = document.getElementById('lang-en');
   const langSvButton = document.getElementById('lang-sv');
+  const langEnLandingButton = document.getElementById('lang-en-landing');
+  const langSvLandingButton = document.getElementById('lang-sv-landing');
 
   if (langEnButton) {
     langEnButton.addEventListener('click', () => onLanguageClick('en'));
@@ -397,6 +413,14 @@ function initialize() {
 
   if (langSvButton) {
     langSvButton.addEventListener('click', () => onLanguageClick('sv'));
+  }
+
+  if (langEnLandingButton) {
+    langEnLandingButton.addEventListener('click', () => onLanguageClick('en'));
+  }
+
+  if (langSvLandingButton) {
+    langSvLandingButton.addEventListener('click', () => onLanguageClick('sv'));
   }
 
   // Phone number click handler - copy on desktop, call on mobile

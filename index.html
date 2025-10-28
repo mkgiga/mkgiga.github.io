@@ -79,6 +79,17 @@
     </button>
   </div>
   <div id="landing" class="flex flex-col items-center justify-center py-12 relative overflow-hidden hidden" style="opacity: 1;">
+    <!-- Language Switcher (Landing Page) -->
+    <div class="absolute top-4 right-4 flex gap-2 z-20">
+      <button id="lang-en-landing" role="button" aria-label="Switch to English"
+        class="bg-transparent cursor-pointer rounded-xl border-none">
+        <img src="/assets/flags/us.svg" alt="US Flag" class="w-8 h-auto opacity-60 hover:opacity-100 transition-opacity" selected />
+      </button>
+      <button id="lang-sv-landing" role="button" aria-label="Byt till svenska"
+        class="bg-transparent cursor-pointer rounded-xl border-none">
+        <img src="/assets/flags/se.svg" alt="Swedish Flag" class="w-8 h-auto opacity-60 hover:opacity-100 transition-opacity" />
+      </button>
+    </div>
     <!-- Scrolling source code background -->
     <div id="code-scroll" class="absolute inset-0 overflow-hidden pointer-events-none">
       <pre class="p-4"

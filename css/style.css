@@ -55,8 +55,11 @@ body {
 }
 
 /* Flag selected state */
-#languages img[selected] {
+#languages img[selected],
+#lang-en-landing img[selected],
+#lang-sv-landing img[selected] {
     filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+    opacity: 1 !important;
 }
 
 /* Tab visibility */
