@@ -2,8 +2,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;700&display=swap");
     
 :root {
-    --primary: #647cca; /* blue-600 */
-    --primary-hover: #5167b1; /* blue-700 */
+    --primary: #4ba38d; /* blue-600 */
+    --primary-hover: #3f8b78; /* blue-700 */
+}
+
+* {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    color: inherit;
 }
 
 body {
@@ -15,6 +23,10 @@ body {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+}
+
+.line-height-1 {
+    line-height: 1;
 }
 
 @media (min-width: 768px) {
@@ -72,7 +84,7 @@ body[lang="sv"] [lang="en"] {
 /* Material Icons baseline alignment fix */
 .material-icons {
     line-height: 1 !important;
-    transform: translateY(3px);
+    vertical-align: middle;
 }
 
 /* Rotating text animation */
@@ -144,7 +156,7 @@ body[lang="sv"] [lang="en"] {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    z-index: 1002;
+    z-index: 1003;
 }
 
 .burger-btn span {
@@ -173,7 +185,7 @@ body[lang="sv"] [lang="en"] {
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
+    z-index: 1001;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -193,7 +205,7 @@ body[lang="sv"] [lang="en"] {
     box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
     transform: translateX(100%);
     transition: transform 0.3s ease;
-    z-index: 1001;
+    z-index: 1002;
     overflow-y: auto;
 }
 
@@ -268,6 +280,10 @@ body[lang="sv"] [lang="en"] {
         display: none !important;
     }
 
+    #contact-links {
+        display: none !important;
+    }
+
     #main-layout {
         padding-top: 60px;
     }
@@ -305,5 +321,10 @@ body[lang="sv"] [lang="en"] {
 
     #rotating-word .word-item {
         text-align: center !important;
+    }
+
+    /* Landing page spacing */
+    #landing h1 {
+        padding-bottom: 1rem;
     }
 }

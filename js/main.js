@@ -330,15 +330,6 @@ function initialize() {
     });
   }
 
-  // Consulting CTA button - navigate to contact page
-  const consultingCta = document.getElementById('consulting-cta');
-  if (consultingCta) {
-    consultingCta.addEventListener('click', () => {
-      history.pushState({}, "", '/contact');
-      showTab('contact');
-    });
-  }
-
   // Set language based on saved preference, browser locale, or default to English
   switchLanguage(getInitialLanguage());
 
