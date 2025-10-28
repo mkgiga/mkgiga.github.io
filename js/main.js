@@ -19,44 +19,44 @@ const fuckYouScrapers = {
  * @returns
  */
 function onTabClick(event) {
-    event.preventDefault();
-    const target = event.currentTarget;
+  event.preventDefault();
+  const target = event.currentTarget;
 
-    const tabName = target.getAttribute("route");
-    if (!tabName) return;
+  const tabName = target.getAttribute("route");
+  if (!tabName) return;
 
-    history.pushState({}, "", target.href);
-    showTab(tabName);
+  history.pushState({}, "", target.href);
+  showTab(tabName);
 };
 
 function showTab(tabName) {
-    const landing = document.getElementById('landing');
-    const mainLayout = document.getElementById('main-layout');
+  const landing = document.getElementById('landing');
+  const mainLayout = document.getElementById('main-layout');
 
-    if (tabName === 'home') {
-        // Show landing page, hide main layout
-        landing.classList.remove('hidden');
-        mainLayout.classList.add('hidden');
-    } else {
-        // Show main layout, hide landing page
-        landing.classList.add('hidden');
-        mainLayout.classList.remove('hidden');
+  if (tabName === 'home') {
+    // Show landing page, hide main layout
+    landing.classList.remove('hidden');
+    mainLayout.classList.add('hidden');
+  } else {
+    // Show main layout, hide landing page
+    landing.classList.add('hidden');
+    mainLayout.classList.remove('hidden');
 
-        // Show the correct tab
-        for (const tab of tabs) {
-            if (tab.getAttribute("tab") === tabName) {
-                tab.setAttribute("active", "");
-            } else {
-                tab.removeAttribute("active");
-            }
-        }
+    // Show the correct tab
+    for (const tab of tabs) {
+      if (tab.getAttribute("tab") === tabName) {
+        tab.setAttribute("active", "");
+      } else {
+        tab.removeAttribute("active");
+      }
     }
+  }
 }
 
 function getTabFromPath() {
-    const path = window.location.pathname;
-    if (path === "/" || path === "") return "home";
-    return path.substring(1);
+  const path = window.location.pathname;
+  if (path === "/" || path === "") return "home";
+  return path.substring(1);
 }
 
 /**
@@ -117,7 +117,12 @@ function initialize() {
   const linkGroups = document.querySelectorAll('.link-group');
 
   // Robust mobile detection using multiple signals
-  function isMobileDevice() {
+  function isMobileDevice(debug) {
+    // Debug mode: pass true to force mobile, false to force desktop, undefined for normal detection
+    if (typeof debug === 'boolean') {
+      return debug;
+    }
+
     // Check for touch capability
     const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
@@ -260,6 +265,80 @@ function initialize() {
   }
   // Mobile: tel: link works automatically (no handler needed)
 
+  // Burger menu functionality
+  const burgerBtn = document.getElementById('burger-btn');
+  const burgerMenu = document.getElementById('burger-menu');
+  const menuOverlay = document.getElementById('menu-overlay');
+  const burgerMenuItems = document.querySelectorAll('.burger-menu-item');
+  const burgerLangEn = document.getElementById('burger-lang-en');
+  const burgerLangSv = document.getElementById('burger-lang-sv');
+
+  function openBurgerMenu() {
+    burgerMenu.classList.add('active');
+    menuOverlay.classList.add('active');
+    menuOverlay.classList.remove('hidden');
+    burgerBtn.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent body scroll
+  }
+
+  function closeBurgerMenu() {
+    burgerMenu.classList.remove('active');
+    menuOverlay.classList.remove('active');
+    burgerBtn.classList.remove('active');
+    document.body.style.overflow = ''; // Restore body scroll
+    // Hide overlay after animation
+    setTimeout(() => {
+      if (!menuOverlay.classList.contains('active')) {
+        menuOverlay.classList.add('hidden');
+      }
+    }, 300);
+  }
+
+  if (burgerBtn) {
+    burgerBtn.addEventListener('click', () => {
+      if (burgerMenu.classList.contains('active')) {
+        closeBurgerMenu();
+      } else {
+        openBurgerMenu();
+      }
+    });
+  }
+
+  if (menuOverlay) {
+    menuOverlay.addEventListener('click', closeBurgerMenu);
+  }
+
+  // Close menu when clicking on navigation items
+  burgerMenuItems.forEach(item => {
+    item.addEventListener('click', () => {
+      closeBurgerMenu();
+    });
+  });
+
+  // Language switching from burger menu
+  if (burgerLangEn) {
+    burgerLangEn.addEventListener('click', () => {
+      onLanguageClick('en');
+      closeBurgerMenu();
+    });
+  }
+
+  if (burgerLangSv) {
+    burgerLangSv.addEventListener('click', () => {
+      onLanguageClick('sv');
+      closeBurgerMenu();
+    });
+  }
+
+  // Consulting CTA button - navigate to contact page
+  const consultingCta = document.getElementById('consulting-cta');
+  if (consultingCta) {
+    consultingCta.addEventListener('click', () => {
+      history.pushState({}, "", '/contact');
+      showTab('contact');
+    });
+  }
+
   // Set language based on saved preference, browser locale, or default to English
   switchLanguage(getInitialLanguage());
 
@@ -267,11 +346,10 @@ function initialize() {
   const rotatingWordContainer = document.getElementById('rotating-word');
   if (rotatingWordContainer) {
     const words = [
-      { en: 'Web', sv: 'Webb' },
-      { en: 'Application', sv: 'Applikation' },
-      { en: 'System', sv: 'System' },
-      { en: 'Backend', sv: 'Backend' },
-      { en: 'Frontend', sv: 'Frontend' }
+      { en: 'Web development', sv: 'Webbutveckling' },
+      { en: 'System development', sv: 'Systemutveckling' },
+      { en: 'Frontend development', sv: 'Frontendutveckling' },
+      { en: 'Backend development', sv: 'Backendutveckling' }
     ];
 
     // Calculate the width needed for the longest word
@@ -325,33 +403,37 @@ function initialize() {
       const wordElement = createWordElement(word);
 
       // Set initial state (below, invisible)
-      wordElement.style.transform = 'translateY(48px)';
       wordElement.style.opacity = '0';
-
       rotatingWordContainer.appendChild(wordElement);
 
-      // Trigger slide up and fade in
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          wordElement.style.transform = 'translateY(0)';
-          wordElement.style.opacity = '1';
-        });
-      });
-
-      // After display duration, slide up and fade out
-      setTimeout(() => {
-        wordElement.style.transform = 'translateY(-48px)';
-        wordElement.style.opacity = '0';
-
-        // Remove element after animation completes
+      wordElement.animate([
+        { transform: 'translateY(25%)', opacity: 0 },
+        { transform: 'translateY(0)', opacity: 1 }
+      ], {
+        duration: 800,
+        fill: 'forwards',
+        easing: 'ease-in-out'
+      }).onfinish = () => {
         setTimeout(() => {
-          wordElement.remove();
+          wordElement.animate([
+            { transform: 'translateY(0)', opacity: 1 },
+            { transform: 'translateY(-25%)', opacity: 0 }
+          ], {
+            duration: 800,
+            fill: 'forwards',
+            easing: 'ease-in-out'
+          }).onfinish = () => {
+            // Remove the word element after animation
+            rotatingWordContainer.removeChild(wordElement);
+            // Move to next word
+            currentIndex = (currentIndex + 1) % words.length;
 
-          // Move to next word
-          currentIndex = (currentIndex + 1) % words.length;
-          animateWord();
-        }, 800); // Match CSS transition duration
-      }, 3500); // Display duration
+            // Repeat animation
+            setTimeout(animateWord, 100);
+          };
+        }, 2000); // Display duration
+
+      };
     }
 
     // Start animation

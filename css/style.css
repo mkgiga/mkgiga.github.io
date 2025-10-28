@@ -79,9 +79,13 @@ body[lang="sv"] [lang="en"] {
 #rotating-word {
     margin: 0;
     padding: 0;
-    line-height: inherit;
+    line-height: 1;
+    vertical-align: bottom;
     height: 1em;
-    overflow: hidden;
+    margin-right: 6px;
+}
+
+.comma {
     margin-right: 6px;
 }
 
@@ -92,7 +96,6 @@ body[lang="sv"] [lang="en"] {
     width: 100%;
     text-align: right;
     display: block;
-    transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
     margin: 0;
     padding: 0;
     white-space: nowrap;
@@ -101,4 +104,206 @@ body[lang="sv"] [lang="en"] {
 
 .subheader {
     transform: translateX(-20px);
+}
+
+.subheader-line-1,
+.subheader-line-2,
+.subheader-line-3 {
+    display: inline;
+}
+
+.subheader-line-1 {
+    line-height: 1;
+}
+
+.subheader-line-2 {
+    margin-right: 0.25em;
+}
+
+/* Mobile Navigation */
+.mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 1000;
+}
+
+.burger-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 1002;
+}
+
+.burger-btn span {
+    width: 25px;
+    height: 2px;
+    background-color: #333;
+    transition: all 0.3s ease;
+}
+
+.burger-btn.active span:nth-child(1) {
+    transform: rotate(45deg) translate(7px, 7px);
+}
+
+.burger-btn.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-btn.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.menu-overlay.active {
+    opacity: 1;
+}
+
+.burger-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 75%;
+    max-width: 300px;
+    background-color: #ffffff;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1001;
+    overflow-y: auto;
+}
+
+.burger-menu.active {
+    transform: translateX(0);
+}
+
+.burger-menu-content {
+    padding: 80px 20px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.burger-menu-item {
+    padding: 16px 0;
+    font-size: 18px;
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px solid #e5e5e5;
+    transition: color 0.2s ease;
+}
+
+.burger-menu-item:hover {
+    color: var(--primary);
+}
+
+.burger-menu-divider {
+    height: 1px;
+    background-color: #e5e5e5;
+    margin: 20px 0;
+}
+
+.burger-menu-languages {
+    display: flex;
+    gap: 12px;
+    padding: 20px 0;
+}
+
+.burger-lang-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.burger-lang-btn:hover {
+    opacity: 1;
+}
+
+.burger-lang-btn img {
+    width: 32px;
+    height: auto;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+    body {
+        background-color: #ffffff;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    #desktop-header {
+        display: none !important;
+    }
+
+    #main-nav {
+        display: none !important;
+    }
+
+    #main-layout {
+        padding-top: 60px;
+    }
+
+    #tab-container {
+        width: 100% !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+
+    /* Landing page subheader - split into 3 lines */
+    .subheader {
+        flex-direction: column !important;
+        align-items: center !important;
+        transform: none !important;
+    }
+
+    .subheader-line-1,
+    .subheader-line-2,
+    .subheader-line-3 {
+        display: block;
+    }
+
+    /* Hide comma on mobile */
+    .subheader-line-1 span[lang="en"]:not(#rotating-word):not(#rotating-word *),
+    .subheader-line-1 span[lang="sv"]:not(#rotating-word):not(#rotating-word *) {
+        display: none;
+    }
+
+    #rotating-word {
+        margin-right: 0 !important;
+        margin-bottom: 0 !important;
+        text-align: center !important;
+    }
+
+    #rotating-word .word-item {
+        text-align: center !important;
+    }
 }

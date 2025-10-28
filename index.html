@@ -43,9 +43,16 @@
       <div class="text-center max-w-3xl px-6">
         <h1 class="text-6xl font-thin mb-4 leading-none">Emil Eriksson</h1>
         <p class="text-2xl font-light text-gray-700 mb-8 inline-flex items-center subheader">
-          <span id="rotating-word" class="inline-block text-right mr-[8px] relative"></span>
-          <span lang="en">Development, User Experience & Design</span>
-          <span lang="sv">utveckling, Användarupplevelse & Design</span>
+          <span class="subheader-line-1">
+            <span id="rotating-word" class="inline-block text-right relative"></span>
+          </span>
+          <span class="subheader-line-2">
+            <span lang="en">User Experience </span>
+            <span lang="sv">Användarupplevelse </span>
+          </span><span class="subheader-line-3">
+            <span lang="en">& Design</span>
+            <span lang="sv">& Design</span>
+          </span>
         </p>
         <p class="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
           <span lang="en">I build custom web applications and technical solutions for businesses with unique requirements—from concept to deployment.</span>
@@ -78,7 +85,49 @@
       </div>
     </div>
     <div id="main-layout" class="min-h-screen flex flex-col">
-      <header class="flex flex-col mb-6 mt-12">
+      <!-- Mobile Header (hidden on desktop) -->
+      <div id="mobile-header" class="mobile-header">
+        <a href="/" route="home" class="text-xl font-thin">Emil Eriksson</a>
+        <button id="burger-btn" class="burger-btn" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <!-- Burger Menu Overlay -->
+      <div id="menu-overlay" class="menu-overlay hidden"></div>
+
+      <!-- Burger Menu -->
+      <nav id="burger-menu" class="burger-menu">
+        <div class="burger-menu-content">
+          <a href="/" role="button" route="home" class="burger-menu-item">Home</a>
+          <a href="/consulting" role="button" route="consulting" class="burger-menu-item">
+            <span lang="en">Consulting</span>
+            <span lang="sv">Konsult</span>
+          </a>
+          <a href="/about" role="button" route="about" class="burger-menu-item">
+            <span lang="en">About</span>
+            <span lang="sv">Om mig</span>
+          </a>
+          <a href="/contact" role="button" route="contact" class="burger-menu-item">
+            <span lang="en">Contact</span>
+            <span lang="sv">Kontakt</span>
+          </a>
+          <div class="burger-menu-divider"></div>
+          <div class="burger-menu-languages">
+            <button id="burger-lang-en" class="burger-lang-btn">
+              <img src="/assets/flags/us.svg" alt="English" />
+            </button>
+            <button id="burger-lang-sv" class="burger-lang-btn">
+              <img src="/assets/flags/se.svg" alt="Svenska" />
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Desktop Header -->
+      <header id="desktop-header" class="flex flex-col mb-6 mt-12">
         <div class="flex flex-row items-baseline gap-4 w-full">
           <h1 id="card-title" class="text-[52px] font-thin leading-none">
             <a href="/" route="home">Emil Eriksson</a>
