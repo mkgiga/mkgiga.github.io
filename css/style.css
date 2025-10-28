@@ -103,12 +103,16 @@ body[lang="sv"] [lang="en"] {
 /* Material Icons baseline alignment fix */
 .material-icons {
     line-height: 1 !important;
-    vertical-align: bottom;
 }
-
-/* Email icon size adjustment */
-#hehe_2 .material-icons {
+#hehe_2,
+#hehe_1 {
+    vertical-align: baseline;
+}
+/* Email and phone icon adjustments */
+#hehe_2 .material-icons,
+#hehe_1 .material-icons {
     font-size: 22px; /* text-xl (20px) + 2px */
+    vertical-align: baseline;
 }
 
 #hehe_2_landing .material-icons {
@@ -118,7 +122,18 @@ body[lang="sv"] [lang="en"] {
 /* Devicons baseline alignment fix */
 [class*="devicon-"] {
     line-height: 1 !important;
+}
+
+/* Landing page icon alignment */
+#landing .material-icons,
+#landing [class*="devicon-"] {
     vertical-align: bottom;
+}
+
+/* Main layout contact links icon alignment */
+#contact-links .material-icons,
+#contact-links [class*="devicon-"] {
+    vertical-align: baseline;
 }
 
 /* Rotating text animation */
@@ -374,10 +389,6 @@ body[lang="sv"] [lang="en"] {
         text-align: center;
     }
 
-    #landing-buttons {
-        justify-content: space-between !important;
-    }
-
     /* Bigger flags on mobile */
     #languages img {
         width: 36px !important;
@@ -387,5 +398,12 @@ body[lang="sv"] [lang="en"] {
     .burger-lang-btn img {
         width: 36px !important;
         height: auto !important;
+    }
+}
+
+/* Extra small screens - button spacing */
+@media (max-width: 400px) {
+    #landing-buttons {
+        justify-content: space-between !important;
     }
 }

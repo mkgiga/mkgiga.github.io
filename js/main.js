@@ -546,12 +546,53 @@ function renderContactForm(options = {}) {
 
   // Handle form submission
   const form = container.querySelector('#contact-form');
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const formData = new FormData(form);
-    console.log('Form submitted:', Object.fromEntries(formData));
-    // TODO: Add actual form submission logic here
-    alert(currentLang === 'en' ? 'Thank you! Your message has been sent.' : 'Tack! Ditt meddelande har skickats.');
+
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton.innerHTML;
+
+    // Disable button and show loading state
+    submitButton.disabled = true;
+    submitButton.innerHTML = currentLang === 'en' ? 'Sending...' : 'Skickar...';
+
+    try {
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
+
+      // Determine API URL based on environment
+      const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:3009/api/contact'
+        : 'https://api.emileriksson.com/api/contact';
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert(currentLang === 'en'
+          ? 'Thank you! Your message has been sent.'
+          : 'Tack! Ditt meddelande har skickats.');
+        form.reset();
+      } else {
+        throw new Error(result.error || 'Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert(currentLang === 'en'
+        ? 'Sorry, there was an error sending your message. Please try again.'
+        : 'Tyvärr uppstod ett fel. Vänligen försök igen.');
+    } finally {
+      // Re-enable button and restore original text
+      submitButton.disabled = false;
+      submitButton.innerHTML = originalButtonText;
+    }
   });
 }
 
