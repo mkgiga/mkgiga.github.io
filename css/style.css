@@ -25,6 +25,16 @@ body {
     flex-direction: column;
 }
 
+/* Page transition animations */
+#landing, #main-layout {
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#landing.hidden, #main-layout.hidden {
+    opacity: 0;
+}
+
 .line-height-1 {
     line-height: 1;
 }
@@ -42,8 +52,17 @@ body {
 }
 
 /* Tab visibility */
+[tab] {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
 [tab]:not([active]) {
     display: none;
+}
+
+[tab][active] {
+    opacity: 1;
 }
 
 /* Link hover behavior */
@@ -84,7 +103,22 @@ body[lang="sv"] [lang="en"] {
 /* Material Icons baseline alignment fix */
 .material-icons {
     line-height: 1 !important;
-    vertical-align: middle;
+    vertical-align: bottom;
+}
+
+/* Email icon size adjustment */
+#hehe_2 .material-icons {
+    font-size: 22px; /* text-xl (20px) + 2px */
+}
+
+#hehe_2_landing .material-icons {
+    font-size: 26px; /* text-2xl (24px) + 2px */
+}
+
+/* Devicons baseline alignment fix */
+[class*="devicon-"] {
+    line-height: 1 !important;
+    vertical-align: bottom;
 }
 
 /* Rotating text animation */
@@ -220,11 +254,10 @@ body[lang="sv"] [lang="en"] {
 }
 
 .burger-menu-item {
-    padding: 16px 0;
+    margin: 16px 0;
     font-size: 18px;
     color: #333;
     text-decoration: none;
-    border-bottom: 1px solid #e5e5e5;
     transition: color 0.2s ease;
 }
 
@@ -317,14 +350,42 @@ body[lang="sv"] [lang="en"] {
         margin-right: 0 !important;
         margin-bottom: 0 !important;
         text-align: center !important;
+        vertical-align: middle;
     }
 
     #rotating-word .word-item {
         text-align: center !important;
+        vertical-align: middle;
     }
 
-    /* Landing page spacing */
+    /* Landing page spacing and sizing */
     #landing h1 {
         padding-bottom: 1rem;
+        font-size: 3rem; /* Smaller than desktop's text-6xl */
+    }
+
+    /* Reduce subheader size on mobile */
+    #landing .subheader {
+        font-size: 1.25rem; /* Smaller than desktop's text-2xl (1.5rem) */
+    }
+
+    .subheader-line-1 {
+        line-height: inherit;
+        text-align: center;
+    }
+
+    #landing-buttons {
+        justify-content: space-between !important;
+    }
+
+    /* Bigger flags on mobile */
+    #languages img {
+        width: 36px !important;
+        height: auto !important;
+    }
+
+    .burger-lang-btn img {
+        width: 36px !important;
+        height: auto !important;
     }
 }

@@ -34,22 +34,39 @@ function showTab(tabName) {
   const mainLayout = document.getElementById('main-layout');
 
   if (tabName === 'home') {
-    // Show landing page, hide main layout
-    landing.classList.remove('hidden');
-    mainLayout.classList.add('hidden');
-  } else {
-    // Show main layout, hide landing page
-    landing.classList.add('hidden');
-    mainLayout.classList.remove('hidden');
+    // Fade out main layout
+    mainLayout.style.opacity = '0';
 
-    // Show the correct tab
-    for (const tab of tabs) {
-      if (tab.getAttribute("tab") === tabName) {
-        tab.setAttribute("active", "");
-      } else {
-        tab.removeAttribute("active");
+    // After fade out, show landing page
+    setTimeout(() => {
+      mainLayout.classList.add('hidden');
+      landing.classList.remove('hidden');
+      // Trigger reflow
+      landing.offsetHeight;
+      landing.style.opacity = '1';
+    }, 300);
+  } else {
+    // Fade out landing page
+    landing.style.opacity = '0';
+
+    // After fade out, show main layout with the correct tab
+    setTimeout(() => {
+      landing.classList.add('hidden');
+      mainLayout.classList.remove('hidden');
+
+      // Show the correct tab
+      for (const tab of tabs) {
+        if (tab.getAttribute("tab") === tabName) {
+          tab.setAttribute("active", "");
+        } else {
+          tab.removeAttribute("active");
+        }
       }
-    }
+
+      // Trigger reflow
+      mainLayout.offsetHeight;
+      mainLayout.style.opacity = '1';
+    }, 300);
   }
 }
 
@@ -330,6 +347,18 @@ function initialize() {
     });
   }
 
+  // Service contact buttons - pre-fill form with selected service
+  const serviceContactButtons = document.querySelectorAll('.service-contact-btn');
+  for (const button of serviceContactButtons) {
+    button.addEventListener('click', () => {
+      const service = button.getAttribute('data-service');
+      // Re-render form with pre-selected service after navigation
+      setTimeout(() => {
+        renderContactForm({ service });
+      }, 10);
+    });
+  }
+
   // Set language based on saved preference, browser locale, or default to English
   switchLanguage(getInitialLanguage());
 
@@ -397,19 +426,22 @@ function initialize() {
       wordElement.style.opacity = '0';
       rotatingWordContainer.appendChild(wordElement);
 
-      wordElement.animate([
-        { transform: 'translateY(25%)', opacity: 0 },
-        { transform: 'translateY(0)', opacity: 1 }
-      ], {
+      // Check if mobile for animation direction
+      const isMobile = window.innerWidth <= 768;
+      const animateIn = isMobile
+        ? [{ transform: 'translateX(-32px)', opacity: 0 }, { transform: 'translateX(0)', opacity: 1 }]
+        : [{ transform: 'translateY(25%)', opacity: 0 }, { transform: 'translateY(0)', opacity: 1 }];
+      const animateOut = isMobile
+        ? [{ transform: 'translateX(0)', opacity: 1 }, { transform: 'translateX(32px)', opacity: 0 }]
+        : [{ transform: 'translateY(0)', opacity: 1 }, { transform: 'translateY(-25%)', opacity: 0 }];
+
+      wordElement.animate(animateIn, {
         duration: 800,
         fill: 'forwards',
         easing: 'ease-in-out'
       }).onfinish = () => {
         setTimeout(() => {
-          wordElement.animate([
-            { transform: 'translateY(0)', opacity: 1 },
-            { transform: 'translateY(-25%)', opacity: 0 }
-          ], {
+          wordElement.animate(animateOut, {
             duration: 800,
             fill: 'forwards',
             easing: 'ease-in-out'
@@ -434,10 +466,101 @@ function initialize() {
   showTab(getTabFromPath());
 }
 
+/**
+ * Render contact form with optional pre-filled data
+ * @param {Object} options - Form configuration options
+ * @param {string} options.service - Pre-selected service type
+ * @param {string} options.containerId - Container element ID
+ */
+function renderContactForm(options = {}) {
+  const { service = '', containerId = 'contact-form-container' } = options;
+  const container = document.getElementById(containerId);
+
+  if (!container) return;
+
+  const currentLang = document.body.getAttribute('lang') || 'en';
+
+  const labels = {
+    name: { en: 'Name', sv: 'Namn' },
+    email: { en: 'Email', sv: 'E-post' },
+    service: { en: 'Service', sv: 'Tjänst' },
+    message: { en: 'Message', sv: 'Meddelande' },
+    send: { en: 'Send Message', sv: 'Skicka meddelande' },
+    serviceOptions: {
+      consultation: { en: 'Consultation Meeting', sv: 'Konsultmöte' },
+      development: { en: 'Development & Implementation', sv: 'Utveckling & Implementering' },
+      other: { en: 'Other', sv: 'Annat' }
+    }
+  };
+
+  container.innerHTML = `
+    <form id="contact-form" class="space-y-4 w-full m-0">
+      <div>
+        <label class="block text-sm font-medium mb-1">
+          <span lang="en">${labels.name.en}</span>
+          <span lang="sv">${labels.name.sv}</span>
+        </label>
+        <input type="text" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[var(--primary)] transition-colors">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">
+          <span lang="en">${labels.email.en}</span>
+          <span lang="sv">${labels.email.sv}</span>
+        </label>
+        <input type="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[var(--primary)] transition-colors">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">
+          <span lang="en">${labels.service.en}</span>
+          <span lang="sv">${labels.service.sv}</span>
+        </label>
+        <select name="service" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[var(--primary)] transition-colors">
+          <option value="consultation" ${service === 'consultation' ? 'selected' : ''}>
+            ${labels.serviceOptions.consultation[currentLang]}
+          </option>
+          <option value="development" ${service === 'development' ? 'selected' : ''}>
+            ${labels.serviceOptions.development[currentLang]}
+          </option>
+          <option value="other" ${service === 'other' ? 'selected' : ''}>
+            ${labels.serviceOptions.other[currentLang]}
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">
+          <span lang="en">${labels.message.en}</span>
+          <span lang="sv">${labels.message.sv}</span>
+        </label>
+        <textarea name="message" rows="5" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[var(--primary)] transition-colors resize-vertical"></textarea>
+      </div>
+
+      <button type="submit" class="bg-[var(--primary)] text-white px-6 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium">
+        <span lang="en">${labels.send.en}</span>
+        <span lang="sv">${labels.send.sv}</span>
+      </button>
+    </form>
+  `;
+
+  // Handle form submission
+  const form = container.querySelector('#contact-form');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    console.log('Form submitted:', Object.fromEntries(formData));
+    // TODO: Add actual form submission logic here
+    alert(currentLang === 'en' ? 'Thank you! Your message has been sent.' : 'Tack! Ditt meddelande har skickats.');
+  });
+}
+
 window.addEventListener("popstate", () => {
   showTab(getTabFromPath());
 });
 
 document.addEventListener("DOMContentLoaded", () => {
   initialize();
+  // Render default contact form
+  renderContactForm();
 });

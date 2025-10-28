@@ -39,7 +39,7 @@
         <img src="/assets/flags/se.svg" alt="Swedish Flag" />
       </button>
     </div>
-    <div id="landing" class="flex flex-col items-center justify-center min-h-screen w-screen">
+    <div id="landing" class="flex flex-col items-center justify-center min-h-screen">
       <div class="text-center max-w-3xl px-6">
         <h1 class="text-6xl font-thin line-height-1 align-text-bottom">Emil Eriksson</h1>
         <p class="text-2xl font-light text-gray-700 mb-8 inline-flex items-center subheader">
@@ -54,27 +54,27 @@
             <span lang="sv">& Design</span>
           </span>
         </p>
-        <p class="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
+        <p class="text-base text-gray-600 mb-8 max-w-3xl mx-auto" style="text-align: justify; text-align-last: left; hyphens: auto; -webkit-hyphens: auto;">
           <span lang="en">I build custom web applications and technical solutions for businesses with unique requirements—from concept to deployment.</span>
-          <span lang="sv">Jag bygger skräddarsydda webbapplikationer och tekniska lösningar för företag med unika krav—från koncept till färdig produkt.</span>
+          <span lang="sv">Jag bygger webbapplikationer och tekniska lösningar till er med unika krav—från koncept till färdig produkt.</span>
         </p>
-        <div class="flex gap-4 justify-center mb-12">
-          <a href="/consulting" route="consulting" class="bg-[var(--primary)] text-white px-8 py-3 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium">
+        <div class="flex gap-4 justify-center mb-12" id="landing-buttons">
+          <a href="/consulting" route="consulting" class="bg-[var(--primary)] text-white px-5 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium">
             <span lang="en">Consulting</span>
             <span lang="sv">Konsult</span>
           </a>
-          <a href="/contact" route="contact" class="border border-gray-300 px-8 py-3 rounded-lg hover:border-gray-400 transition-colors font-medium">
-            <span lang="en">Get in Touch</span>
-            <span lang="sv">Kontakta mig</span>
+          <a href="/contact" route="contact" class="border border-gray-300 px-5 py-2 rounded-lg hover:border-gray-400 transition-colors font-medium">
+            <span lang="en">Contact</span>
+            <span lang="sv">Kontakt</span>
           </a>
-          <a href="/about" route="about" class="border border-gray-300 px-8 py-3 rounded-lg hover:border-gray-400 transition-colors font-medium">
-            <span lang="en">About me</span>
+          <a href="/about" route="about" class="border border-gray-300 px-5 py-2 rounded-lg hover:border-gray-400 transition-colors font-medium">
+            <span lang="en">About</span>
             <span lang="sv">Om mig</span>
           </a>
         </div>
-        <div class="flex gap-6 justify-center text-gray-600">
+        <div class="flex gap-6 justify-center items-baseline text-gray-600">
           <a id="hehe_2_landing" class="hover:text-gray-900 transition-colors cursor-pointer">
-            <i class="material-icons text-2xl align-middle">email</i>
+            <i class="material-icons text-2xl">email</i>
           </a>
           <a href="https://github.com/mkgiga" target="_blank" rel="noopener" class="hover:text-gray-900 transition-colors">
             <i class="devicon-github-plain text-2xl"></i>
@@ -144,7 +144,7 @@
           <ul id="contact-links" class="flex flex-row gap-2 items-baseline ml-4 mr-3">
             <li class="flex flex-row items-baseline w-fit border-b border-transparent text-base font-medium hover:border-b hover:border-black link-group leading-none">
               <a id="hehe_2" class="font-light cursor-pointer">
-                <i class="material-icons text-xl align-baseline">email</i>
+                <i class="material-icons text-xl">email</i>
               </a>
             </li>
             <li class="flex flex-row items-baseline w-fit border-b border-transparent text-base font-medium hover:border-b hover:border-black link-group leading-none">
@@ -189,8 +189,8 @@
               <span lang="sv">Jag bygger webbapplikationer och tekniska lösningar efter dina behov—från idé till färdig produkt.</span>
             </p>
 
-            <div class="mb-6 py-8">
-              <div class="relative" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; grid-auto-rows: auto;">
+            <div class="py-8">
+              <div class="relative" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; grid-auto-rows: auto;">
                 <!-- Timeline line (behind circles) -->
                 <div class="absolute top-6 h-0.5 bg-gray-300 z-0" style="left: 16.67%; right: 16.67%;"></div>
 
@@ -254,7 +254,7 @@
                       <span lang="en">Consultation Meeting</span>
                       <span lang="sv">Konsultmöte</span>
                     </h4>
-                    <span class="text-lg font-bold text-[var(--primary)]">$85<span class="text-sm font-normal text-gray-600">/hour</span></span>
+                    <span class="text-lg font-bold text-[var(--primary)]">$85<span class="text-sm font-normal text-gray-600"><span lang="en">/hour</span><span lang="sv">/timme</span></span></span>
                   </div>
                   <p class="text-sm text-gray-600 mb-3">
                     <span lang="en">Discuss your project needs, technical requirements, and get expert guidance on architecture and implementation.</span>
@@ -278,7 +278,7 @@
                     </li>
                   </ul>
                   <div class="mt-4">
-                    <a href="/contact" route="contact" class="inline-flex items-center gap-1 bg-[var(--primary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium text-sm cursor-pointer">
+                    <a href="/contact" route="contact" data-service="consultation" class="inline-flex items-center gap-1 bg-[var(--primary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium text-sm cursor-pointer service-contact-btn">
                       <span lang="en">Contact</span>
                       <span lang="sv">Kontakta</span>
                       <i class="material-icons text-sm">arrow_forward</i>
@@ -293,7 +293,7 @@
                       <span lang="en">Development & Implementation</span>
                       <span lang="sv">Utveckling & Implementering</span>
                     </h4>
-                    <span class="text-lg font-bold text-[var(--primary)]">$85<span class="text-sm font-normal text-gray-600">/hour</span></span>
+                    <span class="text-lg font-bold text-[var(--primary)]">$45<span class="text-sm font-normal text-gray-600"><span lang="en">/hour</span><span lang="sv">/timme</span></span></span>
                   </div>
                   <p class="text-sm text-gray-600 mb-3">
                     <span lang="en">Contract-based development work for custom features, integrations, and technical implementations tailored to your needs.</span>
@@ -317,7 +317,7 @@
                     </li>
                   </ul>
                   <div class="mt-4">
-                    <a href="/contact" route="contact" class="inline-flex items-center gap-1 bg-[var(--primary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium text-sm cursor-pointer">
+                    <a href="/contact" route="contact" data-service="development" class="inline-flex items-center gap-1 bg-[var(--primary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium text-sm cursor-pointer service-contact-btn">
                       <span lang="en">Contact</span>
                       <span lang="sv">Kontakta</span>
                       <i class="material-icons text-sm">arrow_forward</i>
@@ -331,7 +331,8 @@
             <h2 class="text-[28px] font-thin"><span lang="en">Projects</span><span lang="sv">Projekt</span></h2>
           </div>
           <div tab="contact">
-            <h2 class="text-[28px] font-thin"><span lang="en">Contact</span><span lang="sv">Kontakt</span></h2>
+            <h2 class="text-[28px] font-thin mb-4"><span lang="en">Contact</span><span lang="sv">Kontakt</span></h2>
+            <div id="contact-form-container" class="w-full m-0"></div>
           </div>
           <div tab="about">
             <h2 class="text-[28px] font-thin"><span lang="en">About</span><span lang="sv">Om mig</span></h2>
