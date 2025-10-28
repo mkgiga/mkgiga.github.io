@@ -195,6 +195,9 @@ function initialize() {
   const copyFeedback = document.getElementById('copy-feedback');
 
   if (!isMobile) {
+    let feedbackTimeout1 = null;
+    let feedbackTimeout2 = null;
+
     // Desktop only: copy to clipboard for both phone links
     const copyPhoneNumber = async (event, linkElement) => {
       event.preventDefault(); // Prevent anchor navigation
@@ -205,14 +208,19 @@ function initialize() {
 
         // Show feedback (only in main layout where the feedback element exists)
         if (copyFeedback) {
+          // Clear any existing timeouts
+          if (feedbackTimeout1) clearTimeout(feedbackTimeout1);
+          if (feedbackTimeout2) clearTimeout(feedbackTimeout2);
+
+          // Reset and show
           copyFeedback.classList.remove('hidden');
           copyFeedback.style.opacity = '1';
 
           // Fade out and hide after 2 seconds
-          setTimeout(() => {
+          feedbackTimeout1 = setTimeout(() => {
             copyFeedback.style.opacity = '0';
             // Hide completely after fade animation
-            setTimeout(() => {
+            feedbackTimeout2 = setTimeout(() => {
               copyFeedback.classList.add('hidden');
             }, 300); // Match transition duration
           }, 2000);
