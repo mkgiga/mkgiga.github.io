@@ -487,7 +487,7 @@ function renderContactForm(options = {}) {
     message: { en: 'Message', sv: 'Meddelande' },
     send: { en: 'Send Message', sv: 'Skicka meddelande' },
     serviceOptions: {
-      consultation: { en: 'Consultation Meeting', sv: 'Konsultmöte' },
+      consultation: { en: 'Consultation Meeting', sv: 'Planeringsmöte' },
       development: { en: 'Development & Implementation', sv: 'Utveckling & Implementering' },
       other: { en: 'Other', sv: 'Annat' }
     }
