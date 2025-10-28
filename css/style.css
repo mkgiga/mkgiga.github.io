@@ -11,7 +11,6 @@
     font-size: inherit;
     font-weight: inherit;
     line-height: inherit;
-    color: inherit;
 }
 
 body {
@@ -31,8 +30,17 @@ body {
     transition: opacity 0.3s ease-in-out;
 }
 
+#landing {
+    background-color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
 #landing.hidden, #main-layout.hidden {
-    opacity: 0;
+    display: none;
 }
 
 .line-height-1 {
@@ -93,6 +101,16 @@ body[lang="sv"] [lang="en"] {
     margin-top: 8px;
 }
 
+/* Syntax highlighting for scrolling code */
+#code-scroll {
+    opacity: 0.25;
+}
+
+#code-scroll pre,
+#code-scroll code {
+    background: transparent !important;
+}
+
 .tagline {
     font-size: 20px;
     font-weight: 300;
@@ -100,41 +118,32 @@ body[lang="sv"] [lang="en"] {
     color: #202020;
 }
 
-/* Material Icons baseline alignment fix */
-.material-icons {
-    line-height: 1 !important;
-}
-#hehe_2,
-#hehe_1 {
-    vertical-align: baseline;
-}
-/* Email and phone icon adjustments */
-#hehe_2 .material-icons,
-#hehe_1 .material-icons {
-    font-size: 22px; /* text-xl (20px) + 2px */
-    vertical-align: baseline;
-}
-
-#hehe_2_landing .material-icons {
-    font-size: 26px; /* text-2xl (24px) + 2px */
-}
-
 /* Devicons baseline alignment fix */
 [class*="devicon-"] {
     line-height: 1 !important;
 }
 
-/* Landing page icon alignment */
-#landing .material-icons,
-#landing [class*="devicon-"] {
-    vertical-align: bottom;
+/* Lucide icon styling - stroke-based with proper colors */
+[data-lucide] {
+    fill: none;
+    stroke-width: 2;
 }
 
-/* Main layout contact links icon alignment */
-#contact-links .material-icons,
-#contact-links [class*="devicon-"] {
-    vertical-align: baseline;
+/* Landing page icons - primary color stroke */
+#landing [data-lucide] {
+    stroke: var(--primary);
 }
+
+/* Header icons - darker gray stroke */
+#contact-links [data-lucide] {
+    stroke: #4a5568; /* gray-700 */
+    transition: stroke 0.2s ease;
+}
+
+#contact-links a:hover [data-lucide] {
+    stroke: #1a202c; /* gray-900 */
+}
+
 
 /* Rotating text animation */
 #rotating-word {
@@ -342,6 +351,16 @@ body[lang="sv"] [lang="en"] {
         box-shadow: none !important;
     }
 
+    /* Ensure contact form matches Services page width */
+    [tab="contact"] {
+        width: 100% !important;
+    }
+
+    #contact-form,
+    #contact-form * {
+        box-sizing: border-box !important;
+    }
+
     /* Landing page subheader - split into 3 lines */
     .subheader {
         flex-direction: column !important;
@@ -401,9 +420,36 @@ body[lang="sv"] [lang="en"] {
     }
 }
 
-/* Extra small screens - button spacing */
-@media (max-width: 400px) {
+/* Extra small screens - button spacing and landing page padding */
+@media (max-width: 450px) {
+    #landing .text-center.w-full.px-12.bg-white {
+        padding-left: 10% !important;
+        padding-right: 10% !important;
+    }
+
+    #landing-buttons a {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+    }
+
+    #landing h1 {
+        font-size: 2.5rem !important;
+    }
+}
+
+/* Very small screens only - button space-between */
+@media (max-width: 399px) {
     #landing-buttons {
         justify-content: space-between !important;
+    }
+}
+
+/* Spinner animation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
     }
 }

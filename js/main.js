@@ -1,3 +1,164 @@
+/**
+ * Creates an animated spinner using Canvas with rotating dots and fading afterimage trails
+ * @param {HTMLElement} container - The element to render the spinner in
+ * @param {Object} options - Optional configuration
+ * @param {string} options.size - Size of spinner ('sm', 'md', 'lg') - default 'md'
+ * @param {string} options.color - Color of spinner - default uses CSS --primary variable
+ * @returns {Object} Object with canvas element and destroy method
+ */
+function createSpinner(container, options = {}) {
+  const { size = 'md', color } = options;
+  const primaryColor = color || getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+
+  const sizeMap = {
+    sm: 24,
+    md: 40,
+    lg: 60
+  };
+
+  const spinnerSize = sizeMap[size] || sizeMap.md;
+  const dotSize = Math.floor(spinnerSize / 8); // Smaller dots (was /6)
+  const radius = spinnerSize / 2;
+
+  // Add padding so dots don't get cut off at edges
+  const padding = dotSize;
+  const canvasSize = spinnerSize + padding * 2;
+
+  // Create canvas with device pixel ratio for crisp rendering
+  const canvas = document.createElement('canvas');
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvasSize * dpr;
+  canvas.height = canvasSize * dpr;
+  canvas.style.width = `${canvasSize}px`;
+  canvas.style.height = `${canvasSize}px`;
+  canvas.style.display = 'block';
+  canvas.style.margin = 'auto';
+  canvas.style.backgroundColor = 'transparent';
+
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.translate(padding, padding);
+
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = `
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+  `;
+  wrapper.appendChild(canvas);
+  container.appendChild(wrapper);
+
+  const afterimages = [];
+  const dotAngles = [0, 90, 180, 270];
+
+  // Animation state
+  let rotation = 0;
+  const rotationSpeed = 360 / 1600; // 360 degrees in 1600ms (slower)
+  let enlargementRotation = 0;
+  const enlargementSpeed = -360 / 3600; // Enlargement rotates slower in opposite direction
+  let lastTime = performance.now();
+  let timeSinceLastAfterimage = 0;
+  const afterimageInterval = 8; // Spawn afterimage every 8ms
+  const fadeDuration = 300; // How long afterimages take to fade out
+
+  function drawDot(angle, opacity, enlargementAngles) {
+    const angleRad = (angle * Math.PI) / 180;
+    const x = radius + Math.sin(angleRad) * radius;
+    const y = radius - Math.cos(angleRad) * radius;
+
+    ctx.globalAlpha = opacity;
+    ctx.fillStyle = primaryColor;
+    ctx.beginPath();
+
+    // Calculate proximity to any of the 4 enlargement zones
+    let maxProximity = 0;
+    for (const enlargementAngle of enlargementAngles) {
+      const angleDiff = Math.abs((angle - enlargementAngle + 360) % 360);
+      const normalizedDiff = Math.min(angleDiff, 360 - angleDiff); // Handle wrap-around
+      const proximity = Math.max(0, 1 - (normalizedDiff / 35)); // 35 degree falloff (bigger zones)
+      maxProximity = Math.max(maxProximity, proximity);
+    }
+
+    // Enlarge dots near any enlargement angle by up to 50%
+    const sizeMultiplier = 1 + (maxProximity * 0.5);
+    const size = (dotSize / 2) * sizeMultiplier;
+
+    ctx.arc(x, y, size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function animate(currentTime) {
+    const deltaTime = currentTime - lastTime;
+    lastTime = currentTime;
+
+    rotation += rotationSpeed * deltaTime;
+    if (rotation >= 360) rotation -= 360;
+
+    enlargementRotation += enlargementSpeed * deltaTime;
+    if (enlargementRotation >= 360) enlargementRotation -= 360;
+    if (enlargementRotation < 0) enlargementRotation += 360;
+
+    timeSinceLastAfterimage += deltaTime;
+
+    // Clear canvas (including padding area)
+    ctx.clearRect(-padding, -padding, canvasSize, canvasSize);
+
+    // Spawn afterimages
+    if (timeSinceLastAfterimage >= afterimageInterval) {
+      for (const dotAngle of dotAngles) {
+        const angle = (dotAngle + rotation) % 360;
+        afterimages.push({ angle, createdAt: currentTime });
+      }
+      timeSinceLastAfterimage = 0;
+    }
+
+    // Create 4 enlargement zones at 90-degree offsets
+    const baseEnlargementAngle = enlargementRotation % 360;
+    const enlargementAngles = [
+      baseEnlargementAngle,
+      (baseEnlargementAngle + 90) % 360,
+      (baseEnlargementAngle + 180) % 360,
+      (baseEnlargementAngle + 270) % 360
+    ];
+
+    // Draw and update afterimages
+    for (let i = afterimages.length - 1; i >= 0; i--) {
+      const afterimage = afterimages[i];
+      const age = currentTime - afterimage.createdAt;
+
+      if (age > fadeDuration) {
+        afterimages.splice(i, 1);
+      } else {
+        // Start at 0.7 opacity and fade to 0
+        const fadeProgress = age / fadeDuration;
+        const opacity = 0.7 * (1 - fadeProgress);
+        drawDot(afterimage.angle, opacity, enlargementAngles);
+      }
+    }
+
+    // Draw main dots (always full opacity)
+    for (const dotAngle of dotAngles) {
+      const angle = (dotAngle + rotation) % 360;
+      drawDot(angle, 1, enlargementAngles);
+    }
+
+    animationId = requestAnimationFrame(animate);
+  }
+
+  let animationId = requestAnimationFrame(animate);
+
+  return {
+    element: wrapper,
+    destroy: () => {
+      cancelAnimationFrame(animationId);
+      wrapper.remove();
+    }
+  };
+}
+
 const tabContainer = document.getElementById("tab-container");
 const tabs = tabContainer.querySelectorAll("div[tab]");
 
@@ -29,44 +190,53 @@ function onTabClick(event) {
   showTab(tabName);
 };
 
-function showTab(tabName) {
+function showTab(tabName, skipAnimation = false) {
   const landing = document.getElementById('landing');
   const mainLayout = document.getElementById('main-layout');
 
   if (tabName === 'home') {
-    // Fade out main layout
-    mainLayout.style.opacity = '0';
-
-    // After fade out, show landing page
-    setTimeout(() => {
+    if (skipAnimation) {
+      // Immediate switch for initial load
       mainLayout.classList.add('hidden');
       landing.classList.remove('hidden');
-      // Trigger reflow
-      landing.offsetHeight;
       landing.style.opacity = '1';
-    }, 300);
+      mainLayout.style.opacity = '1';
+    } else {
+      // Animated transition
+      mainLayout.style.opacity = '0';
+      setTimeout(() => {
+        mainLayout.classList.add('hidden');
+        landing.classList.remove('hidden');
+        landing.offsetHeight;
+        landing.style.opacity = '1';
+      }, 300);
+    }
   } else {
-    // Fade out landing page
-    landing.style.opacity = '0';
+    // Show the correct tab
+    for (const tab of tabs) {
+      if (tab.getAttribute("tab") === tabName) {
+        tab.setAttribute("active", "");
+      } else {
+        tab.removeAttribute("active");
+      }
+    }
 
-    // After fade out, show main layout with the correct tab
-    setTimeout(() => {
+    if (skipAnimation) {
+      // Immediate switch for initial load
       landing.classList.add('hidden');
       mainLayout.classList.remove('hidden');
-
-      // Show the correct tab
-      for (const tab of tabs) {
-        if (tab.getAttribute("tab") === tabName) {
-          tab.setAttribute("active", "");
-        } else {
-          tab.removeAttribute("active");
-        }
-      }
-
-      // Trigger reflow
-      mainLayout.offsetHeight;
+      landing.style.opacity = '1';
       mainLayout.style.opacity = '1';
-    }, 300);
+    } else {
+      // Animated transition
+      landing.style.opacity = '0';
+      setTimeout(() => {
+        landing.classList.add('hidden');
+        mainLayout.classList.remove('hidden');
+        mainLayout.offsetHeight;
+        mainLayout.style.opacity = '1';
+      }, 300);
+    }
   }
 }
 
@@ -463,7 +633,7 @@ function initialize() {
     animateWord();
   }
 
-  showTab(getTabFromPath());
+  showTab(getTabFromPath(), true); // Skip animation on initial load
 }
 
 /**
@@ -493,9 +663,15 @@ function renderContactForm(options = {}) {
     }
   };
 
-  container.innerHTML = `
-    <form id="contact-form" class="space-y-4 w-full m-0">
-      <div>
+  // Check if form already exists
+  const existingForm = container.querySelector('#contact-form');
+  if (existingForm) {
+    existingForm.remove();
+  }
+
+  const formHTML = `
+    <form id="contact-form" class="space-y-4 block w-full">
+      <div class="w-full">
         <label class="block text-sm font-medium mb-1">
           <span lang="en">${labels.name.en}</span>
           <span lang="sv">${labels.name.sv}</span>
@@ -503,7 +679,7 @@ function renderContactForm(options = {}) {
         <input type="text" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[var(--primary)] transition-colors">
       </div>
 
-      <div>
+      <div class="w-full">
         <label class="block text-sm font-medium mb-1">
           <span lang="en">${labels.email.en}</span>
           <span lang="sv">${labels.email.sv}</span>
@@ -511,7 +687,7 @@ function renderContactForm(options = {}) {
         <input type="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[var(--primary)] transition-colors">
       </div>
 
-      <div>
+      <div class="w-full">
         <label class="block text-sm font-medium mb-1">
           <span lang="en">${labels.service.en}</span>
           <span lang="sv">${labels.service.sv}</span>
@@ -529,7 +705,7 @@ function renderContactForm(options = {}) {
         </select>
       </div>
 
-      <div>
+      <div class="w-full">
         <label class="block text-sm font-medium mb-1">
           <span lang="en">${labels.message.en}</span>
           <span lang="sv">${labels.message.sv}</span>
@@ -543,6 +719,8 @@ function renderContactForm(options = {}) {
       </button>
     </form>
   `;
+
+  container.insertAdjacentHTML('beforeend', formHTML);
 
   // Handle form submission
   const form = container.querySelector('#contact-form');
@@ -600,8 +778,65 @@ window.addEventListener("popstate", () => {
   showTab(getTabFromPath());
 });
 
+// Scrolling source code background
+async function initCodeScroll() {
+  try {
+    const response = await fetch('/js/main.js');
+    const sourceCode = await response.text();
+
+    const codeContent = document.getElementById('code-content');
+    if (!codeContent) return;
+    const preElement = codeContent.parentElement;
+
+    // Repeat the source code multiple times to fill the screen
+    const repeated = (sourceCode + '\n\n').repeat(10);
+
+    // Apply syntax highlighting with Prism
+    codeContent.textContent = repeated;
+    Prism.highlightElement(codeContent);
+
+    // Animate scrolling
+    let scrollPosition = 0;
+    const scrollSpeed = 6; // pixels per second
+    let lastTimestamp = null;
+
+    function animate(timestamp) {
+      if (lastTimestamp === null) {
+        lastTimestamp = timestamp;
+      }
+
+      // Calculate delta time for smoother animation
+      const deltaTime = (timestamp - lastTimestamp) / 1000; // convert to seconds
+      lastTimestamp = timestamp;
+
+      scrollPosition += scrollSpeed * deltaTime;
+
+      // Reset when scrolled past one repetition
+      const singleRepeatHeight = preElement.scrollHeight / 10;
+      if (scrollPosition >= singleRepeatHeight) {
+        scrollPosition = 0;
+      }
+
+      // Use translate3d for GPU acceleration
+      preElement.style.transform = `translate3d(0, -${scrollPosition}px, 0)`;
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  } catch (error) {
+    console.error('Failed to load source code:', error);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  const loader = document.getElementById('page-loader');
+
   initialize();
-  // Render default contact form
   renderContactForm();
+  initCodeScroll();
+
+  // Remove loader immediately - content is already visible
+  if (loader) {
+    loader.remove();
+  }
 });
