@@ -237,33 +237,98 @@ function initialize() {
   switchLanguage(getInitialLanguage());
 
   // Rotating text animation
-  const rotatingText = document.getElementById('rotating-text');
-  if (rotatingText) {
-    let currentIndex = 0;
-    const wordCount = 5; // Web, Application, System, Backend, Frontend (Frontend is at index 4)
-    const blockHeight = 1.3; // em units, matches CSS
+  const rotatingWordContainer = document.getElementById('rotating-word');
+  if (rotatingWordContainer) {
+    const words = [
+      { en: 'Web', sv: 'Webb' },
+      { en: 'Application', sv: 'Applikation' },
+      { en: 'System', sv: 'System' },
+      { en: 'Backend', sv: 'Backend' },
+      { en: 'Frontend', sv: 'Frontend' }
+    ];
 
-    function rotateText() {
-      currentIndex++;
-      rotatingText.style.transform = `translateY(-${currentIndex * blockHeight}em)`;
+    // Calculate the width needed for the longest word
+    function calculateMaxWidth() {
+      const tempSpan = document.createElement('span');
+      tempSpan.style.visibility = 'hidden';
+      tempSpan.style.position = 'absolute';
+      tempSpan.style.whiteSpace = 'nowrap';
+      tempSpan.className = 'text-2xl font-light'; // Match parent styling
+      document.body.appendChild(tempSpan);
 
-      // After showing the duplicate "Web" (index 5), reset to real "Web" (index 0) instantly
-      if (currentIndex === wordCount) {
-        setTimeout(() => {
-          rotatingText.style.transition = 'none'; // Disable transition
-          currentIndex = 0;
-          rotatingText.style.transform = `translateY(0)`;
+      let maxWidth = 0;
+      words.forEach(word => {
+        // Check both languages
+        tempSpan.textContent = word.en;
+        maxWidth = Math.max(maxWidth, tempSpan.offsetWidth);
+        tempSpan.textContent = word.sv;
+        maxWidth = Math.max(maxWidth, tempSpan.offsetWidth);
+      });
 
-          // Re-enable transition after a brief delay
-          setTimeout(() => {
-            rotatingText.style.transition = 'transform 0.8s ease-in-out';
-          }, 50);
-        }, 800); // Wait for animation to complete (matches CSS transition duration)
-      }
+      document.body.removeChild(tempSpan);
+      return maxWidth;
     }
 
-    // Rotate every 3.5 seconds
-    setInterval(rotateText, 3500);
+    // Set the container width to fit the longest word
+    const maxWidth = calculateMaxWidth();
+    rotatingWordContainer.style.width = `${maxWidth}px`;
+
+    let currentIndex = 0;
+
+    function createWordElement(word) {
+      const wordItem = document.createElement('span');
+      wordItem.className = 'word-item';
+
+      const enSpan = document.createElement('span');
+      enSpan.setAttribute('lang', 'en');
+      enSpan.textContent = word.en;
+
+      const svSpan = document.createElement('span');
+      svSpan.setAttribute('lang', 'sv');
+      svSpan.textContent = word.sv;
+
+      wordItem.appendChild(enSpan);
+      wordItem.appendChild(svSpan);
+
+      return wordItem;
+    }
+
+    function animateWord() {
+      const word = words[currentIndex];
+      const wordElement = createWordElement(word);
+
+      // Set initial state (below, invisible)
+      wordElement.style.transform = 'translateY(48px)';
+      wordElement.style.opacity = '0';
+
+      rotatingWordContainer.appendChild(wordElement);
+
+      // Trigger slide up and fade in
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          wordElement.style.transform = 'translateY(0)';
+          wordElement.style.opacity = '1';
+        });
+      });
+
+      // After display duration, slide up and fade out
+      setTimeout(() => {
+        wordElement.style.transform = 'translateY(-48px)';
+        wordElement.style.opacity = '0';
+
+        // Remove element after animation completes
+        setTimeout(() => {
+          wordElement.remove();
+
+          // Move to next word
+          currentIndex = (currentIndex + 1) % words.length;
+          animateWord();
+        }, 800); // Match CSS transition duration
+      }, 3500); // Display duration
+    }
+
+    // Start animation
+    animateWord();
   }
 
   showTab(getTabFromPath());

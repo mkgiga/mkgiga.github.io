@@ -76,21 +76,29 @@ body[lang="sv"] [lang="en"] {
 }
 
 /* Rotating text animation */
-.rotating-text-container {
-    height: 1.3em;
-    text-align: right;
-    position: relative;
-    display: inline-block;
+#rotating-word {
+    margin: 0;
+    padding: 0;
+    line-height: inherit;
+    height: 1em;
     overflow: hidden;
-    transform: translateY(0.25em);
+    margin-right: 6px;
 }
 
-.rotating-text-inner {
-    transition: transform 0.8s ease-in-out;
-    transform: translateY(0);
+.word-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: right;
+    display: block;
+    transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    line-height: 1;
 }
 
-.rotating-text-inner > .block {
-    height: 1.3em;
-    line-height: 1.3em;
+.subheader {
+    transform: translateX(-20px);
 }
