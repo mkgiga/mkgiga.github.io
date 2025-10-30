@@ -106,7 +106,7 @@ body[lang="sv"] [lang="en"] {
 
 /* Syntax highlighting for scrolling code */
 #code-scroll {
-    opacity: 0.25;
+    opacity: 0.5;
 }
 
 #code-scroll pre,

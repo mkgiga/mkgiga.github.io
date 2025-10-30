@@ -78,12 +78,12 @@ function createSpinner(container, options = {}) {
     for (const enlargementAngle of enlargementAngles) {
       const angleDiff = Math.abs((angle - enlargementAngle + 360) % 360);
       const normalizedDiff = Math.min(angleDiff, 360 - angleDiff); // Handle wrap-around
-      const proximity = Math.max(0, 1 - (normalizedDiff / 35)); // 35 degree falloff (bigger zones)
+      const proximity = Math.max(0, 1 - (normalizedDiff / 60)); // 60 degree falloff (bigger zones without overlap)
       maxProximity = Math.max(maxProximity, proximity);
     }
 
-    // Enlarge dots near any enlargement angle by up to 50%
-    const sizeMultiplier = 1 + (maxProximity * 0.5);
+    // Enlarge dots near any enlargement angle by up to 100%
+    const sizeMultiplier = 1 + (maxProximity * 1.0);
     const size = (dotSize / 2) * sizeMultiplier;
 
     ctx.arc(x, y, size, 0, Math.PI * 2);
@@ -342,6 +342,21 @@ function initialize() {
 
   const isMobile = isMobileDevice();
 
+  function decodeString(str) {
+    const exemptChars = '+-@.: ';
+    let decoded = '';
+    // remove all non-alphanumeric characters except exemptChars
+    for (const char of str) {
+      if (exemptChars.includes(char) || /[a-zA-Z0-9]/.test(char)) {
+        decoded += char;
+      }
+    }
+    return decoded;
+  }
+
+  // Store decoded email in closure - never in DOM
+  let decodedEmailHref = null;
+
   // load email and phone number dynamically to
   // prevent scrapers from selling them to spammers
   for (const id in fuckYouScrapers) {
@@ -349,18 +364,6 @@ function initialize() {
     // Also try landing page versions
     const landingElement = document.getElementById(id + '_landing');
     const keys = Object.keys(fuckYouScrapers[id]);
-
-    function decodeString(str) {
-      const exemptChars = '+-@.: ';
-      let decoded = '';
-      // remove all non-alphanumeric characters except exemptChars
-      for (const char of str) {
-        if (exemptChars.includes(char) || /[a-zA-Z0-9]/.test(char)) {
-          decoded += char;
-        }
-      }
-      return decoded;
-    }
 
     for (const key of keys) {
       const value = fuckYouScrapers[id][key];
@@ -379,6 +382,10 @@ function initialize() {
           if (element) element.textContent = decodedText;
           if (landingElement) landingElement.textContent = decodedText;
         }
+      } else if (key === 'href' && id === 'hehe_2') {
+        // For email links, store decoded value in JavaScript closure only
+        // Never set it in the DOM
+        decodedEmailHref = decodedValue;
       } else {
         if (element) element[key] = decodedValue;
         if (landingElement) landingElement[key] = decodedValue;
@@ -421,6 +428,31 @@ function initialize() {
 
   if (langSvLandingButton) {
     langSvLandingButton.addEventListener('click', () => onLanguageClick('sv'));
+  }
+
+  // Email link click handlers - trigger mailto via JavaScript
+  // Email address is stored only in JavaScript closure, never in DOM
+  const emailLink = document.getElementById('hehe_2');
+  const emailLinkLanding = document.getElementById('hehe_2_landing');
+
+  if (emailLink) {
+    emailLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation(); // Prevent link-group handler from firing
+      if (decodedEmailHref) {
+        window.location.href = decodedEmailHref;
+      }
+    });
+  }
+
+  if (emailLinkLanding) {
+    emailLinkLanding.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation(); // Prevent any parent handlers from firing
+      if (decodedEmailHref) {
+        window.location.href = decodedEmailHref;
+      }
+    });
   }
 
   // Phone number click handler - copy on desktop, call on mobile
@@ -812,8 +844,8 @@ async function initCodeScroll() {
     if (!codeContent) return;
     const preElement = codeContent.parentElement;
 
-    // Repeat the source code multiple times to fill the screen
-    const repeated = (sourceCode + '\n\n').repeat(10);
+    // Repeat the source code 3 times for seamless loop (reduced from 10 for performance)
+    const repeated = (sourceCode + '\n\n').repeat(3);
 
     // Apply syntax highlighting with Prism
     codeContent.textContent = repeated;
@@ -836,7 +868,7 @@ async function initCodeScroll() {
       scrollPosition += scrollSpeed * deltaTime;
 
       // Reset when scrolled past one repetition
-      const singleRepeatHeight = preElement.scrollHeight / 10;
+      const singleRepeatHeight = preElement.scrollHeight / 3;
       if (scrollPosition >= singleRepeatHeight) {
         scrollPosition = 0;
       }
