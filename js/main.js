@@ -162,6 +162,9 @@ function createSpinner(container, options = {}) {
 const tabContainer = document.getElementById("tab-container");
 const tabs = tabContainer.querySelectorAll("div[tab]");
 
+// Tracks whether contact page was navigated to from a service button
+let pendingServiceHighlight = null;
+
 const fuckYouScrapers = {
   'hehe_1': {
     // lol
@@ -236,6 +239,22 @@ function showTab(tabName, skipAnimation = false) {
         mainLayout.offsetHeight;
         mainLayout.style.opacity = '1';
       }, 300);
+    }
+
+    // Highlight business section when arriving from a service button
+    if (tabName === 'contact' && pendingServiceHighlight) {
+      const businessSection = document.getElementById('contact-business');
+      if (businessSection) {
+        // Wait for tab transition to finish before animating
+        const delay = skipAnimation ? 0 : 350;
+        setTimeout(() => {
+          businessSection.classList.add('highlight-pulse');
+          businessSection.addEventListener('animationend', () => {
+            businessSection.classList.remove('highlight-pulse');
+          }, { once: true });
+        }, delay);
+      }
+      pendingServiceHighlight = null;
     }
   }
 }
@@ -508,6 +527,68 @@ function initialize() {
   }
   // Mobile: tel: link works automatically (no handler needed)
 
+  // === Contact page elements ===
+  const contactEmailBtn = document.getElementById('contact-email-btn');
+  const contactEmailDisplay = document.getElementById('contact-email-display');
+  const contactPhoneDisplay = document.getElementById('contact-phone-display');
+  const contactPhoneBtn = document.getElementById('contact-phone-btn');
+
+  // Populate email display and wire mailto button
+  if (contactEmailDisplay && decodedEmailHref) {
+    contactEmailDisplay.textContent = decodedEmailHref.replace('mailto:', '');
+  }
+  if (contactEmailBtn) {
+    contactEmailBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (decodedEmailHref) {
+        window.location.href = decodedEmailHref;
+      }
+    });
+  }
+
+  // Populate phone display from the decoded value
+  if (contactPhoneDisplay && phoneLink) {
+    contactPhoneDisplay.textContent = phoneLink.textContent;
+  }
+
+  // Phone button: copy on desktop, call on mobile
+  if (contactPhoneBtn) {
+    if (isMobile) {
+      // Show "Call" label, hide "Copy" label
+      contactPhoneBtn.querySelectorAll('.contact-phone-action-desktop').forEach(el => el.style.display = 'none');
+      contactPhoneBtn.querySelectorAll('.contact-phone-action-mobile').forEach(el => el.style.display = '');
+      // Set tel: href
+      if (phoneLink && phoneLink.href) {
+        contactPhoneBtn.href = phoneLink.href;
+      }
+    } else {
+      // Desktop: copy to clipboard on click
+      contactPhoneBtn.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const phoneNumber = contactPhoneDisplay ? contactPhoneDisplay.textContent.trim() : '';
+        if (phoneNumber) {
+          try {
+            await navigator.clipboard.writeText(phoneNumber);
+            const btn = contactPhoneBtn;
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<span lang="en">Copied!</span><span lang="sv">Kopierad!</span>';
+            setTimeout(() => { btn.innerHTML = originalHTML; lucide.createIcons(); }, 2000);
+          } catch (err) {
+            console.error('Failed to copy:', err);
+          }
+        }
+      });
+    }
+  }
+
+  // Service contact buttons - highlight business section on arrival
+  const serviceContactButtons = document.querySelectorAll('a[route="contact"][data-service]');
+  for (const button of serviceContactButtons) {
+    button.addEventListener('click', () => {
+      pendingServiceHighlight = button.getAttribute('data-service');
+    });
+  }
+
   // Burger menu functionality
   const burgerBtn = document.getElementById('burger-btn');
   const burgerMenu = document.getElementById('burger-menu');
@@ -570,18 +651,6 @@ function initialize() {
     burgerLangSv.addEventListener('click', () => {
       onLanguageClick('sv');
       closeBurgerMenu();
-    });
-  }
-
-  // Service contact buttons - pre-fill form with selected service
-  const serviceContactButtons = document.querySelectorAll('.service-contact-btn');
-  for (const button of serviceContactButtons) {
-    button.addEventListener('click', () => {
-      const service = button.getAttribute('data-service');
-      // Re-render form with pre-selected service after navigation
-      setTimeout(() => {
-        renderContactForm({ service });
-      }, 10);
     });
   }
 
@@ -692,144 +761,6 @@ function initialize() {
   showTab(getTabFromPath(), true); // Skip animation on initial load
 }
 
-/**
- * Render contact form with optional pre-filled data
- * @param {Object} options - Form configuration options
- * @param {string} options.service - Pre-selected service type
- * @param {string} options.containerId - Container element ID
- */
-function renderContactForm(options = {}) {
-  const { service = '', containerId = 'contact-form-container' } = options;
-  const container = document.getElementById(containerId);
-
-  if (!container) return;
-
-  const currentLang = document.body.getAttribute('lang') || 'en';
-
-  const labels = {
-    name: { en: 'Name', sv: 'Namn' },
-    email: { en: 'Email', sv: 'E-post' },
-    service: { en: 'Service', sv: 'Tjänst' },
-    message: { en: 'Message', sv: 'Meddelande' },
-    send: { en: 'Send Message', sv: 'Skicka meddelande' },
-    serviceOptions: {
-      consultation: { en: 'Consultation Meeting', sv: 'Planeringsmöte' },
-      development: { en: 'Development & Implementation', sv: 'Utveckling & Implementering' },
-      other: { en: 'Other', sv: 'Annat' }
-    }
-  };
-
-  // Check if form already exists
-  const existingForm = container.querySelector('#contact-form');
-  if (existingForm) {
-    existingForm.remove();
-  }
-
-  const formHTML = `
-    <form id="contact-form" class="space-y-4 block w-full">
-      <div class="w-full">
-        <label class="block text-sm font-medium mb-1">
-          <span lang="en">${labels.name.en}</span>
-          <span lang="sv">${labels.name.sv}</span>
-        </label>
-        <input type="text" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[var(--primary)] transition-colors">
-      </div>
-
-      <div class="w-full">
-        <label class="block text-sm font-medium mb-1">
-          <span lang="en">${labels.email.en}</span>
-          <span lang="sv">${labels.email.sv}</span>
-        </label>
-        <input type="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[var(--primary)] transition-colors">
-      </div>
-
-      <div class="w-full">
-        <label class="block text-sm font-medium mb-1">
-          <span lang="en">${labels.service.en}</span>
-          <span lang="sv">${labels.service.sv}</span>
-        </label>
-        <select name="service" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[var(--primary)] transition-colors">
-          <option value="consultation" ${service === 'consultation' ? 'selected' : ''}>
-            ${labels.serviceOptions.consultation[currentLang]}
-          </option>
-          <option value="development" ${service === 'development' ? 'selected' : ''}>
-            ${labels.serviceOptions.development[currentLang]}
-          </option>
-          <option value="other" ${service === 'other' ? 'selected' : ''}>
-            ${labels.serviceOptions.other[currentLang]}
-          </option>
-        </select>
-      </div>
-
-      <div class="w-full">
-        <label class="block text-sm font-medium mb-1">
-          <span lang="en">${labels.message.en}</span>
-          <span lang="sv">${labels.message.sv}</span>
-        </label>
-        <textarea name="message" rows="5" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[var(--primary)] transition-colors resize-vertical"></textarea>
-      </div>
-
-      <button type="submit" class="bg-[var(--primary)] text-white px-6 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium">
-        <span lang="en">${labels.send.en}</span>
-        <span lang="sv">${labels.send.sv}</span>
-      </button>
-    </form>
-  `;
-
-  container.insertAdjacentHTML('beforeend', formHTML);
-
-  // Handle form submission
-  const form = container.querySelector('#contact-form');
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const submitButton = form.querySelector('button[type="submit"]');
-    const originalButtonText = submitButton.innerHTML;
-
-    // Disable button and show loading state
-    submitButton.disabled = true;
-    submitButton.innerHTML = currentLang === 'en' ? 'Sending...' : 'Skickar...';
-
-    try {
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData);
-
-      // Determine API URL based on environment
-      const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:3009/api/contact'
-        : 'https://api.emileriksson.com/api/contact';
-
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        alert(currentLang === 'en'
-          ? 'Thank you! Your message has been sent.'
-          : 'Tack! Ditt meddelande har skickats.');
-        form.reset();
-      } else {
-        throw new Error(result.error || 'Failed to send message');
-      }
-    } catch (error) {
-      console.error('Error sending message:', error);
-      alert(currentLang === 'en'
-        ? 'Sorry, there was an error sending your message. Please try again.'
-        : 'Tyvärr uppstod ett fel. Vänligen försök igen.');
-    } finally {
-      // Re-enable button and restore original text
-      submitButton.disabled = false;
-      submitButton.innerHTML = originalButtonText;
-    }
-  });
-}
-
 window.addEventListener("popstate", () => {
   showTab(getTabFromPath());
 });
@@ -888,7 +819,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const loader = document.getElementById('page-loader');
 
   initialize();
-  renderContactForm();
   initCodeScroll();
 
   // Remove loader immediately - content is already visible

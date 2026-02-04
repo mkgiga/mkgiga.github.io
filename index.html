@@ -350,7 +350,7 @@
                     </h4>
                     <span class="text-lg font-semibold text-[var(--primary)]">
                       <span lang="en">$85</span>
-                      <span lang="sv">799 SEK</span>
+                      <span lang="sv">849 SEK</span>
                     </span>
                   </div>
                   <p class="text-sm text-gray-600 mb-3">
@@ -382,7 +382,7 @@
                   </ul>
                   <div class="mt-4">
                     <a href="/contact" route="contact" data-service="consultation"
-                      class="inline-flex items-center gap-1 bg-[var(--primary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium text-sm cursor-pointer service-contact-btn">
+                      class="inline-flex items-center gap-1 bg-[var(--primary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium text-sm cursor-pointer">
                       <span lang="en">Contact</span>
                       <span lang="sv">Kontakta</span>
                       <i data-lucide="arrow-right" class="w-4 h-4"></i>
@@ -427,7 +427,7 @@
                   </ul>
                   <div class="mt-4">
                     <a href="/contact" route="contact" data-service="development"
-                      class="inline-flex items-center gap-1 bg-[var(--primary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium text-sm cursor-pointer service-contact-btn">
+                      class="inline-flex items-center gap-1 bg-[var(--primary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium text-sm cursor-pointer">
                       <span lang="en">Contact</span>
                       <span lang="sv">Kontakta</span>
                       <i data-lucide="arrow-right" class="w-4 h-4"></i>
@@ -440,8 +440,110 @@
           <div tab="projects">
             <h2 class="text-[28px] font-light"><span lang="en">Projects</span><span lang="sv">Projekt</span></h2>
           </div>
-          <div tab="contact" id="contact-form-container">
-            <h2 class="text-[28px] font-light mb-4"><span lang="en">Contact</span><span lang="sv">Kontakt</span></h2>
+          <div tab="contact">
+            <h2 class="text-[32px] font-light mb-3">
+              <span lang="en">Contact</span><span lang="sv">Kontakt</span>
+            </h2>
+            <!-- Business Inquiries Section -->
+            <section id="contact-business" class="mb-10">
+              <h3 class="text-xl font-light mb-2">
+                <span lang="en">Business Inquiries</span><span lang="sv">Företagsförfrågningar</span>
+              </h3>
+              <p class="mb-4 text-sm font-light text-gray-600">
+                <span lang="en">For business inquiries, feel free to reach out directly. I typically respond within one business day.</span>
+                <span lang="sv">För företagsförfrågningar, hör gärna av dig direkt. Jag svarar vanligtvis inom en arbetsdag.</span>
+              </p>
+              <div class="grid gap-4">
+                <!-- Email Card -->
+                <div class="contact-card border-l-4 border-l-[var(--primary)] rounded-r-lg p-4 flex items-center justify-between" style="background-color: #f5f5f5;">
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: rgba(75, 163, 141, 0.1);">
+                      <i data-lucide="mail" class="w-5 h-5" style="stroke: var(--primary);"></i>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-base">Email</h4>
+                      <p class="text-sm text-gray-600" id="contact-email-display">
+                        <span lang="en">Click to reveal</span>
+                        <span lang="sv">Klicka för att visa</span>
+                      </p>
+                    </div>
+                  </div>
+                  <a id="contact-email-btn" class="inline-flex items-center gap-1 bg-[var(--primary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium text-sm cursor-pointer">
+                    <span lang="en">Send Email</span>
+                    <span lang="sv">Skicka e-post</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+
+                <!-- Phone Card -->
+                <div class="contact-card border-l-4 border-l-[var(--primary)] rounded-r-lg p-4 flex items-center justify-between" style="background-color: #f5f5f5;">
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: rgba(75, 163, 141, 0.1);">
+                      <i data-lucide="phone" class="w-5 h-5" style="stroke: var(--primary);"></i>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-base">
+                        <span lang="en">Phone</span><span lang="sv">Telefon</span>
+                      </h4>
+                      <p class="text-sm text-gray-600" id="contact-phone-display"></p>
+                    </div>
+                  </div>
+                  <a id="contact-phone-btn" class="inline-flex items-center gap-1 bg-[var(--primary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium text-sm cursor-pointer">
+                    <span class="contact-phone-action-desktop">
+                      <span lang="en">Copy</span><span lang="sv">Kopiera</span>
+                    </span>
+                    <span class="contact-phone-action-mobile" style="display: none;">
+                      <span lang="en">Call</span><span lang="sv">Ring</span>
+                    </span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+              </div>
+            </section>
+
+            <!-- Find Me Online Section -->
+            <section>
+              <h3 class="text-xl font-light mb-2">
+                <span lang="en">Find Me Online</span><span lang="sv">Hitta mig online</span>
+              </h3>
+              <div class="grid gap-4">
+                <!-- GitHub Card -->
+                <div class="contact-card border-l-4 border-l-[var(--primary)] rounded-r-lg p-4 flex items-center justify-between" style="background-color: #f5f5f5;">
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: rgba(75, 163, 141, 0.1);">
+                      <i data-lucide="github" class="w-5 h-5" style="stroke: var(--primary);"></i>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-base">GitHub</h4>
+                      <p class="text-sm text-gray-600">mkgiga</p>
+                    </div>
+                  </div>
+                  <a href="https://github.com/mkgiga" target="_blank" rel="noopener" class="inline-flex items-center gap-1 bg-[var(--primary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium text-sm cursor-pointer">
+                    <span lang="en">Visit Profile</span>
+                    <span lang="sv">Besök profil</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+
+                <!-- LinkedIn Card -->
+                <div class="contact-card border-l-4 border-l-[var(--primary)] rounded-r-lg p-4 flex items-center justify-between" style="background-color: #f5f5f5;">
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: rgba(75, 163, 141, 0.1);">
+                      <i data-lucide="linkedin" class="w-5 h-5" style="stroke: var(--primary);"></i>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-base">LinkedIn</h4>
+                      <p class="text-sm text-gray-600">Emil Eriksson</p>
+                    </div>
+                  </div>
+                  <a href="https://www.linkedin.com/in/emil-eriksson-565484310/" target="_blank" rel="noopener" class="inline-flex items-center gap-1 bg-[var(--primary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors font-medium text-sm cursor-pointer">
+                    <span lang="en">Visit Profile</span>
+                    <span lang="sv">Besök profil</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+              </div>
+            </section>
           </div>
           <div tab="about">
             <h2 class="text-[28px] font-light mb-4"><span lang="en">About</span><span lang="sv">Om mig</span></h2>
